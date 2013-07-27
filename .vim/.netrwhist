@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/etc/network/if-down.d'
+let g:netrw_dirhist_2='/home/gle/code_repo/dlx/dlx'
+let g:netrw_dirhist_3='/home/gle/code_repo/sudoku_solver'
+let g:netrw_dirhist_4='/home/gle/code_repo/dot_matrix_font_to_bmp/src'
