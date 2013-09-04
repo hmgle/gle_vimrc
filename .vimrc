@@ -655,17 +655,14 @@ map <c-w><c-b> :BottomExplorerWindow<cr>
 map <c-w><c-t> :WMToggle<cr>
 let g:winManagerWindowLayout='FileExplorer|TagList'
 :map <F6> :WMToggle<cr>
-filetype plugin on
 
 " set maxmempattern=2500
 
 " 将插入模式aa映射为<esc>
 imap aa <esc>
+imap jj <esc>
 " :nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
 :nnoremap <silent><C-n> <C-w><C-]><C-w>T
-
-" set cscopequickfix by hmg 这样会立即跳转到第一个找到的符号，要跳转到别处， 输入 cw 后选择
-:set cscopequickfix=s-,c-,d-,i-,t-,e-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CSCOPE settings for vim           
@@ -692,10 +689,11 @@ imap aa <esc>
 " Jason Duell       jduell@alumni.princeton.edu     2002/3/7
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
 " This tests to see if vim was configured with the '--enable-cscope' option
 " when it was compiled.  If it wasn't, time to recompile vim... 
 if has("cscope")
+    " set cscopequickfix by hmg 这样会立即跳转到第一个找到的符号，要跳转到别处， 输入 cw 后选择
+    :set cscopequickfix=s-,c-,d-,i-,t-,e-
 
     """"""""""""" Standard cscope/vim boilerplate
 
@@ -828,6 +826,7 @@ if has("cscope")
     " timeoutlent (default: 1000 = 1 second, which is sluggish) is used.
     "
     "set ttimeoutlen=100
-
+    set timeoutlen=3000
+    set ttimeoutlen=200
 endif
 
