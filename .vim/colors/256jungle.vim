@@ -48,4 +48,6 @@ hi VertSplit    ctermfg=239         ctermbg=239         cterm=None
 hi TabLine      ctermfg=245         ctermbg=239         cterm=None
 hi TabLineFill  ctermfg=239         ctermbg=239
 hi TabLineSel   ctermfg=104         ctermbg=236         cterm=Bold
+" 匹配的括号颜色
+hi MatchParen   ctermfg=184         ctermbg=235         cterm=bold,underline
 "vim: sw=4
