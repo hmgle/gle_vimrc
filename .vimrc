@@ -831,3 +831,11 @@ if has("cscope")
     set ttimeoutlen=200
 endif
 
+" 关闭标签后跳至左边标签
+let s:prevtabnum=tabpagenr('$')
+augroup TabClosed
+    autocmd! TabEnter * :if tabpagenr('$')<s:prevtabnum && tabpagenr()>1
+                \ | tabprevious
+                \ |endif
+                \ |let s:prevtabnum=tabpagenr('$')
+augroup END
