@@ -839,3 +839,10 @@ augroup TabClosed
                 \ |endif
                 \ |let s:prevtabnum=tabpagenr('$')
 augroup END
+
+au FileType c set colorcolumn=81
+au FileType cpp set colorcolumn=81
+au FileType python set colorcolumn=81
+
+" 分界线颜色
+hi colorcolumn ctermbg=8 ctermfg=1
