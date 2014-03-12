@@ -846,3 +846,40 @@ au FileType python set colorcolumn=81
 
 " 分界线颜色
 hi colorcolumn ctermbg=8 ctermfg=1
+
+" 同级缩进块跳转
+function! JumpUp()
+    let CurrIndent = indent('.')
+    let CurrLineNo = line('.')
+    let UpLine = CurrLineNo - 1
+    let UpIndent = indent(UpLine)
+    while UpLine > 0
+	    if UpIndent < CurrIndent
+	    call cursor(UpLine, 0)
+		    break
+	    endif
+	    let UpLine = UpLine - 1
+    	    if UpLine == 0
+    	            call cursor(1, 0)
+		    break
+    	    endif
+	    let UpIndent = indent(UpLine)
+    endwhile
+endfunction
+
+function! JumpDown()
+    let CurrIndent = indent('.')
+    let CurrLineNo = line('.')
+    let DownLine = CurrLineNo + 1
+    let UpIndent = indent(DownLine)
+    while DownLine < 0
+	    if UpIndent < CurrIndent
+		    call cursor(DownLine, 0)
+		    break
+	    endif
+	    let DownLine = DownLine + 1
+	    let UpIndent = indent(DownLine)
+    endwhile
+endfunction
+
+map gu :call JumpUp()<cr>
