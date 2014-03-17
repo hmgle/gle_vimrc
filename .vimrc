@@ -799,6 +799,26 @@ if has("cscope")
     nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>	
     nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
 
+    function! NewtabCS(cscmd)
+    	let s:cskeyword=expand("<cword>")
+    	:tabe
+	let s:newpagnr=tabpagenr()
+    	exe "cs find " . a:cscmd s:cskeyword
+	let s:prepagnr=tabpagenr()
+	if s:newpagnr != s:prepagnr
+		exe "tabc" . s:newpagnr
+	endif
+    endfunction
+    
+    nmap <C-i>s :call NewtabCS('s')<cr>
+    nmap <C-i>g :call NewtabCS('g')<cr>
+    nmap <C-i>c :call NewtabCS('c')<cr>
+    nmap <C-i>t :call NewtabCS('t')<cr>
+    nmap <C-i>e :call NewtabCS('e')<cr>
+    nmap <C-i>f :call NewtabCS('f')<cr>
+    nmap <C-i>i :call NewtabCS('i')<cr>
+    nmap <C-i>d :call NewtabCS('d')<cr>
+
 
     """"""""""""" key map timeouts
     "
