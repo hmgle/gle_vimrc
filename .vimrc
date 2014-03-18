@@ -803,7 +803,13 @@ if has("cscope")
     	let s:cskeyword=expand("<cword>")
     	:tabe
 	let s:newpagnr=tabpagenr()
-    	exe "cs find " . a:cscmd s:cskeyword
+	try
+		exe "cs find " . a:cscmd s:cskeyword
+	catch
+		exe "tabc" . s:newpagnr
+		echoe "find null!^_^"
+		return
+	endtry
 	let s:prepagnr=tabpagenr()
 	if s:newpagnr != s:prepagnr
 		exe "tabc" . s:newpagnr
