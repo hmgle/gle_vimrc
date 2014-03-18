@@ -853,11 +853,13 @@ endif
 
 " 关闭标签后跳至左边标签
 let s:prevtabnum=tabpagenr('$')
+let s:prevtabid=tabpagenr()
 augroup TabClosed
-    autocmd! TabEnter * :if tabpagenr('$')<s:prevtabnum && tabpagenr()>1
-                \ | tabprevious
-                \ |endif
-                \ |let s:prevtabnum=tabpagenr('$')
+    autocmd! TabEnter * :if tabpagenr('$')<s:prevtabnum && tabpagenr()>1 && s:prevtabid != tabpagenr('$')+1
+                \       |   tabprevious
+                \       |endif
+                \       |let s:prevtabnum=tabpagenr('$')
+    		\	|let s:prevtabid=tabpagenr()
 augroup END
 
 au FileType c set colorcolumn=81
