@@ -914,8 +914,17 @@ function! JumpDown()
 	if CurrLineNo == line('$')
 		return
 	endif
-	let DownLine = CurrLineNo + 1
-	let DownIndent = indent(DownLine)
+
+	let DownLine = CurrLineNo
+	" 确保以参考的下一行不为空行
+	while DownLine < line('$')
+		let DownLine = DownLine + 1
+		let DownIndent = indent(DownLine)
+		if strlen(getline(DownLine)) > 0
+			break
+		endif
+	endwhile
+	
 	if DownIndent > CurrIndent
 		" 块的顶部, 以下一行作为参考信息
 		let CurrIndent = DownIndent
