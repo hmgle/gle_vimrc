@@ -868,6 +868,8 @@ augroup TabClosed
     		\	|let s:prevtabid=tabpagenr()
 augroup END
 
+au FileType c inoremap /* /*  */<ESC>hhi
+au FileType cpp inoremap /* /*  */<ESC>hhi
 au FileType c set colorcolumn=81
 au FileType cpp set colorcolumn=81
 au FileType python set colorcolumn=81
