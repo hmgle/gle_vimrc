@@ -1047,3 +1047,37 @@ endfunction		" ---------- end of function  C_Help  ----------
 
 map <Leader>h :call MyC_Help("m")<CR>
 map vh :call MyC_Help("m")<CR>
+
+" 增加搜索项
+function! AddSearchStr(str)
+	if strlen(@/) > 0
+		let searchstrs = split(@/, '\\|')
+		let l:searchstrinx = match(searchstrs, a:str)
+		if l:searchstrinx >= 0
+			return
+		endif
+		let @/ = @/ . "\\|" . a:str
+	else
+		let @/ = a:str
+	endif
+endfunction
+
+" 删减搜索项
+function! DelSearchStr(str)
+	let searchstrs = split(@/, '\\|')
+	let l:searchstrinx = match(searchstrs, a:str)
+	if l:searchstrinx == -1
+		return
+	endif
+	call remove(searchstrs, l:searchstrinx)
+	let l:searchall = ""
+	for searchstr in searchstrs
+		let l:searchall = l:searchall . searchstr . '\|'
+	endfor
+	let @/ = l:searchall[0:-3]
+endfunction
+
+map <leader>a :call AddSearchStr(expand("<cword>"))<CR>
+vmap <leader>a :call AddSearchStr(@*)<CR>
+map <leader>d :call DelSearchStr(expand("<cword>"))<CR>
+vmap <leader>d :call DelSearchStr(@*)<CR>
