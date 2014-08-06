@@ -96,7 +96,6 @@ Bundle 'gmarik/vundle'
 
 " golang
 Bundle "jnwhiteh/vim-golang"
-Bundle 'Blackrush/vim-gocode'
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
