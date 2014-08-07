@@ -470,14 +470,13 @@ if MySys() == "mac"
   vmap <D-k> <M-k>
 endif
 
-"Delete trailing white space, useful for Python ;)
+"Delete trailing white space
 func! DeleteTrailingWS()
   exe "normal mz"
   %s/\s\+$//ge
   exe "normal `z"
 endfunc
-autocmd BufWrite *.py :call DeleteTrailingWS()
-autocmd BufWrite *.c :call DeleteTrailingWS()
+autocmd BufWrite *.py,*.c,*.cpp,*.h,*.go :call DeleteTrailingWS()
 
 set guitablabel=%t
 
