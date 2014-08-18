@@ -658,7 +658,6 @@ set mouse=a
 ":set gdbprg=/usr/bin/gdb
 :map <F8> :bel 30vsplit gdb-variables<cr>
 :map <F9> :close<Esc>
-set tags+=/home/gle/glibc29/tags
 map <c-w><c-f> :FirstExplorerWindow<cr>
 map <c-w><c-b> :BottomExplorerWindow<cr>
 map <c-w><c-t> :WMToggle<cr>
