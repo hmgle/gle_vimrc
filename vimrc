@@ -119,9 +119,6 @@ let g:mapleader = ","
 " Fast saving
 nmap <leader>w :w!<cr>
 
-" Fast editing of the .vimrc
-map <leader>e :e! ~/.vim_runtime/vimrc<cr>
-
 " When vimrc is edited, reload it
 autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
 
@@ -1093,3 +1090,9 @@ map <leader>a :call AddSearchStr(expand("<cword>"))<CR>
 vmap <leader>a :call AddSearchStr(@*)<CR>
 map <leader>d :call DelSearchStr(expand("<cword>"))<CR>
 vmap <leader>d :call DelSearchStr(@*)<CR>
+
+" gocode 补全快捷键
+imap <leader>xo <C-x><C-o>
+
+" 自动补全时的预览菜单, 不显示预览窗口
+set completeopt=longest,menu
