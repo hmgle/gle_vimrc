@@ -1057,8 +1057,8 @@ map vh :call MyC_Help("m")<CR>
 function! AddSearchStr(str)
 	if strlen(@/) > 0
 		let searchstrs = split(@/, '\\|')
-		let l:searchstrinx = match(searchstrs, a:str)
-		if l:searchstrinx >= 0
+		let l:searchstrcnt = count(searchstrs, a:str)
+		if l:searchstrcnt > 0
 			return
 		endif
 		let @/ = @/ . "\\|" . a:str
@@ -1070,14 +1070,15 @@ endfunction
 " 删减搜索项
 function! DelSearchStr(str)
 	let searchstrs = split(@/, '\\|')
-	let l:searchstrinx = match(searchstrs, a:str)
-	if l:searchstrinx == -1
+	let l:searchstrcnt = count(searchstrs, a:str)
+	if l:searchstrcnt == 0
 		return
 	endif
-	call remove(searchstrs, l:searchstrinx)
 	let l:searchall = ""
 	for searchstr in searchstrs
-		let l:searchall = l:searchall . searchstr . '\|'
+		if a:str != searchstr
+			let l:searchall = l:searchall . searchstr . '\|'
+		endif
 	endfor
 	let @/ = l:searchall[0:-3]
 endfunction
