@@ -160,6 +160,9 @@ set novisualbell
 set t_vb=
 set tm=500
 
+" 显示窗口末行尽量多的内容
+set dy+=lastline
+
 function! MySys()
 	return 'linux'
 endfunction
