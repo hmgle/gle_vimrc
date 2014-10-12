@@ -583,6 +583,9 @@ endfunction
 " JavaScript 缩进 changed by hmg
 au FileType javascript setlocal et sta sw=4 sts=4
 
+" Erlang 缩进 changed by hmg
+au FileType erlang setlocal et sta sw=4 sts=4
+
 """"""""""""""""""""""""""""""
 " => MRU plugin
 """"""""""""""""""""""""""""""
@@ -1096,3 +1099,7 @@ imap <leader>xo <C-x><C-o>
 
 " 自动补全时的预览菜单, 不显示预览窗口
 set completeopt=longest,menu
+
+" 插入时间
+nnoremap <C-d> "=strftime("%Y-%m-%d %H:%M:%S")<CR>P
+inoremap <C-d> <C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR>
