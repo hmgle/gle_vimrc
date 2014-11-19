@@ -237,7 +237,7 @@ set shiftwidth=8
 set tabstop=8
 set smarttab
 
-set lbr
+" set lbr
 set tw=500
 
 set ai "Auto indent
