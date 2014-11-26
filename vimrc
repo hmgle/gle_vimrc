@@ -96,6 +96,9 @@ Bundle 'gmarik/vundle'
 
 " golang
 Bundle "jnwhiteh/vim-golang"
+
+" ctrlp
+Bundle 'kien/ctrlp.vim'
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
