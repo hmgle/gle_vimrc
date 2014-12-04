@@ -99,6 +99,10 @@ Bundle "jnwhiteh/vim-golang"
 
 " ctrlp
 Bundle 'kien/ctrlp.vim'
+
+" align
+Bundle 'vim-scripts/Align'
+
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
