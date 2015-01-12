@@ -103,6 +103,9 @@ Bundle 'kien/ctrlp.vim'
 " align
 Bundle 'vim-scripts/Align'
 
+" auto specific indentation for different project
+Bundle 'tpope/vim-sleuth'
+
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
