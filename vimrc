@@ -636,6 +636,7 @@ map <leader>pp :setlocal paste!<cr>
 map <leader>bb :cd ..<cr>
 
 set nu
+set rnu
 :hi linenr ctermfg=lightcyan
 hi Identifier ctermfg=blue cterm=none
 set autoindent
