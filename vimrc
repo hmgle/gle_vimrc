@@ -95,7 +95,7 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " golang
-Bundle "jnwhiteh/vim-golang"
+Bundle "fatih/vim-go"
 
 " ctrlp
 Bundle 'kien/ctrlp.vim'
