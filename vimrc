@@ -487,7 +487,7 @@ func! DeleteTrailingWS()
   %s/\s\+$//ge
   exe "normal `z"
 endfunc
-autocmd BufWrite *.py,*.c,*.cpp,*.h,*.go,*.erl,*.hrl :call DeleteTrailingWS()
+autocmd BufWrite *.py,*.c,*.cpp,*.h,*.go,*.erl,*.hrl,*js :call DeleteTrailingWS()
 
 set guitablabel=%t
 
