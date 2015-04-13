@@ -892,7 +892,7 @@ augroup TabClosed
 augroup END
 
 au FileType c,cpp inoremap /* /*  */<ESC>hhi
-au FileType c,cpp,python,markdown,mkd set colorcolumn=81
+au FileType c,cpp,python,markdown,mkd,go,erlang,lua set colorcolumn=81
 
 " 分界线颜色
 hi colorcolumn ctermbg=8 ctermfg=1
