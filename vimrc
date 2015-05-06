@@ -106,6 +106,9 @@ Bundle 'vim-scripts/Align'
 " auto specific indentation for different project
 Bundle 'tpope/vim-sleuth'
 
+" CoffeeScript
+Plugin 'kchmck/vim-coffee-script'
+
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
