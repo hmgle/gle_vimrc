@@ -107,6 +107,7 @@ Bundle 'vim-scripts/Align'
 Bundle 'tpope/vim-sleuth'
 
 " CoffeeScript
+" require vim 7.4+ coffee 1.2.0+
 Plugin 'kchmck/vim-coffee-script'
 
 " bundle end
