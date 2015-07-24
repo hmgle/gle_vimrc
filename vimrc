@@ -231,12 +231,6 @@ set noswapfile
 
 "Persistent undo
 try
-    if MySys() == "windows"
-      set undodir=C:\Windows\Temp
-    else
-      set undodir=~/.vim_runtime/undodir
-    endif
-
     set undofile
 catch
 endtry
