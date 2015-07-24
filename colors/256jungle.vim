@@ -3,7 +3,7 @@
 
 set background=dark
 set t_Co=256
-let g:colors_name="256-jungle"
+let g:colors_name="256jungle"
 
 let python_highlight_all = 1
 let c_gnu = 1
