@@ -58,7 +58,7 @@ let g:mapleader = ","
 nmap <leader>w :w!<cr>
 
 " When vimrc is edited, reload it
-autocmd! bufwritepost .vimrc source ~/.vim/vimrc
+autocmd! bufwritepost .vimrc source ~/.vimrc
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -273,6 +273,12 @@ endfunc
 map <space> /
 map <c-space> ?
 map <silent> <leader><cr> :noh<cr>
+
+" Smart way to move btw. windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
 
 " Close the current buffer
 map <leader>bd :Bclose<cr>
