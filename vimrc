@@ -34,6 +34,9 @@ Bundle 'tpope/vim-sleuth'
 " require vim 7.4+ coffee 1.2.0+
 Plugin 'kchmck/vim-coffee-script'
 
+Plugin 'scrooloose/nerdtree'
+map <C-T> :NERDTreeToggle<CR>
+
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -225,12 +228,18 @@ cno $c e <C-\>eCurrentFileDir("e")<cr>
 cno $q <C-\>eDeleteTillSlash()<cr>
 
 " Bash like keys for the command line
-cnoremap <C-A>      <Home>
-cnoremap <C-E>      <End>
-cnoremap <C-K>      <C-U>
-
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+cnoremap <C-K> <C-U>
+cnoremap <C-B> <Left>
+cnoremap <C-F> <right>
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
+" <C-d>: delete char.
+cnoremap <C-d> <Del>
+" <C-k>, K: delete to end.
+cnoremap <C-k> <C-\>e getcmdpos() == 1 ?
+      \ '' : getcmdline()[:getcmdpos()-2]<CR>
 
 " Useful on some European keyboards
 "map ? $
@@ -391,7 +400,7 @@ func! DeleteTrailingWS()
   %s/\s\+$//ge
   exe "normal `z"
 endfunc
-autocmd BufWrite *.py,*.c,*.cpp,*.h,*.go,*.erl,*.hrl,*js :call DeleteTrailingWS()
+autocmd BufWrite *.py,*.c,*.cpp,*.h,*.go,*.erl,*.hrl,*.js,*.wsgi :call DeleteTrailingWS()
 
 set guitablabel=%t
 
