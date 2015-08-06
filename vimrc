@@ -37,6 +37,8 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'scrooloose/nerdtree'
 map <C-T> :NERDTreeToggle<CR>
 
+Plugin 'lilydjwg/fcitx.vim'
+
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
