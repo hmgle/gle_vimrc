@@ -41,6 +41,8 @@ Plugin 'scrooloose/nerdtree'
 
 map <C-T> :NERDTreeToggle<CR>
 
+Plugin 'lilydjwg/fcitx.vim'
+
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
