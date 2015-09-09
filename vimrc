@@ -34,7 +34,11 @@ Bundle 'tpope/vim-sleuth'
 " require vim 7.4+ coffee 1.2.0+
 Plugin 'kchmck/vim-coffee-script'
 
+" asciidoc
+Plugin 'dagwieers/asciidoc-vim'
+
 Plugin 'scrooloose/nerdtree'
+
 map <C-T> :NERDTreeToggle<CR>
 
 " bundle end
@@ -48,6 +52,8 @@ set history=1700
 " Enable filetype plugin
 filetype plugin on
 filetype indent on
+
+au BufRead,BufNewFile *.{asciidoc,adoc,ascdoc} set filetype=asciidoc
 
 " Set to auto read when a file is changed from the outside
 set autoread
@@ -806,7 +812,7 @@ augroup TabClosed
 augroup END
 
 au FileType c,cpp inoremap /* /*  */<ESC>hhi
-au FileType c,cpp,python,markdown,mkd,go,erlang,lua set colorcolumn=81
+au FileType c,cpp,python,markdown,mkd,asciidoc,go,erlang,lua set colorcolumn=81
 
 " 分界线颜色
 hi colorcolumn ctermbg=8 ctermfg=1
