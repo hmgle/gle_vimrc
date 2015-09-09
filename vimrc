@@ -55,7 +55,7 @@ set history=1700
 filetype plugin on
 filetype indent on
 
-au BufRead,BufNewFile *.{asciidoc,adoc,ascdoc} set filetype=asciidoc
+au BufRead,BufNewFile *.{asciidoc,adoc,ad} set filetype=asciidoc
 
 " Set to auto read when a file is changed from the outside
 set autoread
