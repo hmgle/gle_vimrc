@@ -21,6 +21,10 @@ Bundle 'gmarik/vundle'
 " golang
 Bundle "fatih/vim-go"
 
+" Ruby
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'tpope/vim-rails'
+
 " ctrlp
 Bundle 'kien/ctrlp.vim'
 
