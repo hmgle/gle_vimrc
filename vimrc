@@ -34,6 +34,9 @@ Bundle 'vim-scripts/Align'
 " auto specific indentation for different project
 Bundle 'tpope/vim-sleuth'
 
+" git
+Plugin 'tpope/vim-fugitive'
+
 " CoffeeScript
 " require vim 7.4+ coffee 1.2.0+
 Plugin 'kchmck/vim-coffee-script'
