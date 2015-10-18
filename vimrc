@@ -46,6 +46,9 @@ Plugin 'dagwieers/asciidoc-vim'
 
 Plugin 'scrooloose/nerdtree'
 
+" Surround.vim is all about surroundings
+Plugin 'tpope/vim-surround'
+
 map <C-T> :NERDTreeToggle<CR>
 
 Plugin 'lilydjwg/fcitx.vim'
