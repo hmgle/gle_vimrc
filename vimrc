@@ -476,6 +476,10 @@ map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
 
+""""""""""""""""""""""""""""""
+" => Go section
+""""""""""""""""""""""""""""""
+au FileType go inoremap <C-m> <C-x><C-o>
 
 """"""""""""""""""""""""""""""
 " => Python section
@@ -601,6 +605,7 @@ set fileencodings=utf-8,gbk,ucs-bom,cp936
 
 
 set mouse=a
+set mousehide
 ":syntax enable
 :set previewheight=12
 :run macros/gdb_mappings.vim
