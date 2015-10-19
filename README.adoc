@@ -1,23 +1,32 @@
-## my vimrc
+== my vimrc
 
-### 安装 ctags 和 cscope
-```bash
+.配置步骤
+. 安装 ctags 和 cscope
++
+[source,bash]
+----
 sudo apt-get install exuberant-ctags
 sudo apt-get install cscope
-```
+----
 
-### 下载
-```bash
+. 下载
++
+[source,bash]
+----
 git clone https://github.com/hmgle/gle_vimrc.git ~/.vim
-```
+----
 
-### 创建 vimrc
-```bash
+. 创建 vimrc
++
+[source,bash]
+----
 ln -s ~/.vim/vimrc ~/.vimrc
-```
+----
 
-### 安装 vundle 及插件
-```bash
+. 安装 vundle 及插件
++
+[source,bash]
+----
 git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 vim +BundleInstall +qa
-```
+----
