@@ -362,20 +362,11 @@ endtry
 set laststatus=2
 
 " Format the statusline
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ \ Line:\ %l/%L:%c
-
+set statusline=\ %f%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ \ Line:\ %l/%L:%c
 
 function! CurDir()
     let curdir = substitute(getcwd(), '/Users/amir/', "~/", "g")
     return curdir
-endfunction
-
-function! HasPaste()
-    if &paste
-        return 'PASTE MODE  '
-    else
-        return ''
-    endif
 endfunction
 
 
@@ -479,7 +470,7 @@ map <leader>s? z=
 """"""""""""""""""""""""""""""
 " => Go section
 """"""""""""""""""""""""""""""
-au FileType go inoremap <C-m> <C-x><C-o>
+au FileType go inoremap <C-b> <C-x><C-o>
 
 """"""""""""""""""""""""""""""
 " => Python section
