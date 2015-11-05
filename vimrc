@@ -29,7 +29,7 @@ Plugin 'tpope/vim-rails'
 Bundle 'kien/ctrlp.vim'
 
 " align
-Bundle 'vim-scripts/Align'
+Bundle 'junegunn/vim-easy-align'
 
 " auto specific indentation for different project
 Bundle 'tpope/vim-sleuth'
@@ -1041,11 +1041,18 @@ imap <leader>xo <C-x><C-o>
 set completeopt=longest,menu
 
 " 插入时间
-nnoremap <C-d> "=strftime("%Y-%m-%d %H:%M:%S")<CR>P
-inoremap <C-d> <C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR>
+nnoremap <C-d> "=strftime("%Y-%m-%d")<CR>P
+inoremap <C-d> <C-R>=strftime("%Y-%m-%d")<CR>
 
 " Move to next/previous line with same indentation
 nnoremap <silent> [u :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%<' . line('.') . 'l\S', 'be')<CR>
 nnoremap <silent> ]u :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%<' . line('.') . 'l\S', 'be')<CR>
 nnoremap <silent> [d :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%>' . line('.') . 'l\S', 'e')<CR>
 nnoremap <silent> ]d :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%>' . line('.') . 'l\S', 'e')<CR>
+
+" For vim-easy-align
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
