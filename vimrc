@@ -44,14 +44,48 @@ Plugin 'kchmck/vim-coffee-script'
 " asciidoc
 Plugin 'dagwieers/asciidoc-vim'
 
+" nerdtree {{
 Plugin 'scrooloose/nerdtree'
+Bundle 'jistr/vim-nerdtree-tabs'
+map <C-T> :NERDTreeToggle<CR>
+let g:NERDTreeWinSize=24
+" }}
 
 " Surround.vim is all about surroundings
 Plugin 'tpope/vim-surround'
 
-map <C-T> :NERDTreeToggle<CR>
-
 Plugin 'lilydjwg/fcitx.vim'
+
+" snips {{
+" Track the engine.
+Plugin 'SirVer/ultisnips'
+
+" Snippets are separated from the engine. Add this if you want them:
+Plugin 'honza/vim-snippets'
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+let g:UltiSnipsUsePythonVersion = 2
+
+" If you want :UltiSnipsEdit to split your window.
+" let g:UltiSnipsEditSplit="vertical"
+" }}
+
+" easymotion {{
+Bundle 'easymotion/vim-easymotion'
+map f <Plug>(easymotion-fl)
+map F <Plug>(easymotion-Fl)
+" }}
+
+" youdao-translater {{
+Bundle 'ianva/vim-youdao-translater'
+vnoremap <silent> <C-E> <Esc>:Ydv<CR> 
+nnoremap <silent> <C-E> <Esc>:Ydc<CR> 
+noremap <leader>yd :Yde<CR>
+" }}
 
 " bundle end
 
