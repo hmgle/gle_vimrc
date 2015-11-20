@@ -82,8 +82,8 @@ map F <Plug>(easymotion-Fl)
 
 " youdao-translater {{
 Bundle 'ianva/vim-youdao-translater'
-vnoremap <silent> <C-E> <Esc>:Ydv<CR> 
-nnoremap <silent> <C-E> <Esc>:Ydc<CR> 
+vnoremap <silent> <leader>ee <Esc>:Ydv<CR> 
+nnoremap <silent> <leader>ee <Esc>:Ydc<CR> 
 noremap <leader>yd :Yde<CR>
 " }}
 
