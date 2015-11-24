@@ -28,8 +28,10 @@ Plugin 'tpope/vim-rails'
 " ctrlp
 Bundle 'kien/ctrlp.vim'
 
-" align
+" align {{
 Bundle 'junegunn/vim-easy-align'
+let g:easy_align_ignore_groups = ['String']
+" }}
 
 " auto specific indentation for different project
 Bundle 'tpope/vim-sleuth'
