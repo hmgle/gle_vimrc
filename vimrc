@@ -82,6 +82,11 @@ map f <Plug>(easymotion-fl)
 map F <Plug>(easymotion-Fl)
 " }}
 
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader = ","
+let g:mapleader = ","
+
 " youdao-translater {{
 Bundle 'ianva/vim-youdao-translater'
 vnoremap <silent> <leader>ee <Esc>:Ydv<CR> 
@@ -105,11 +110,6 @@ au BufRead,BufNewFile *.{asciidoc,adoc,ad} set filetype=asciidoc
 
 " Set to auto read when a file is changed from the outside
 set autoread
-
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-let mapleader = ","
-let g:mapleader = ","
 
 " Fast saving
 nmap <leader>w :w!<cr>
