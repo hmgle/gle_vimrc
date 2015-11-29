@@ -49,7 +49,7 @@ Plugin 'dagwieers/asciidoc-vim'
 " nerdtree {{
 Plugin 'scrooloose/nerdtree'
 Bundle 'jistr/vim-nerdtree-tabs'
-map <C-T> :NERDTreeToggle<CR>
+map <C-T> :NERDTreeTabsToggle<CR>
 let g:NERDTreeWinSize=24
 " }}
 
