@@ -18,8 +18,11 @@ call vundle#rc()
 " required! 
 Bundle 'gmarik/vundle'
 
-" golang
+" {{ golang
 Bundle "fatih/vim-go"
+" Enable goimports to automatically insert import paths instead of gofmt:
+let g:go_fmt_command = "goimports"
+" }}
 
 " Ruby
 Plugin 'vim-ruby/vim-ruby'
