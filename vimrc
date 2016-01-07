@@ -1035,8 +1035,13 @@ function! MyC_Help( type )
 	setlocal nomodifiable
 endfunction		" ---------- end of function  C_Help  ----------
 
-map <Leader>h :call MyC_Help("m")<CR>
-map vh :call MyC_Help("m")<CR>
+au FileType c,cpp map <Leader>h :call MyC_Help("m")<CR>
+au FileType c,cpp map vh :call MyC_Help("m")<CR>
+au FileType go nmap <Leader>h <Plug>(go-doc)
+au FileType go nmap vh <Plug>(go-doc)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
 
 " 增加搜索项
 function! AddSearchStr(str)
