@@ -866,7 +866,7 @@ au FileType c,cpp inoremap /* /*  */<ESC>hhi
 au FileType c,cpp,python,markdown,mkd,asciidoc,go,erlang,lua set colorcolumn=81
 
 " 分界线颜色
-hi colorcolumn ctermbg=8 ctermfg=1
+hi colorcolumn ctermbg=240 ctermfg=256
 
 " 同级缩进块跳转
 function! JumpUp()
