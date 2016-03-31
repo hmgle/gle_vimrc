@@ -631,7 +631,7 @@ colorscheme 256jungle
 
 
 " 解决从windows拷贝过来的GBK格式乱码
-set fileencodings=utf-8,gbk,ucs-bom,cp936
+set fileencodings=utf-8,gbk,ucs-bom,cp936,gb18030
 
 
 set mouse=a
