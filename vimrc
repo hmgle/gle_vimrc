@@ -92,9 +92,9 @@ let g:mapleader = ","
 
 " youdao-translater {{
 Bundle 'ianva/vim-youdao-translater'
-vnoremap <silent> <leader>ee <Esc>:Ydv<CR> 
-nnoremap <silent> <leader>ee <Esc>:Ydc<CR> 
-noremap <leader>yd :Yde<CR>
+vnoremap <silent> <leader>ee :<C-u>Ydv<CR>
+nnoremap <silent> <leader>ee :<C-u>Ydc<CR>
+noremap <leader>yd :<C-u>Yde<CR>
 " }}
 
 " bundle end
