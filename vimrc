@@ -77,7 +77,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'kchmck/vim-coffee-script'
 
 " asciidoc
-Plugin 'dagwieers/asciidoc-vim'
+Plugin 'asciidoc/vim-asciidoc'
 
 " nerdtree {{
 Plugin 'scrooloose/nerdtree'
