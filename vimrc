@@ -97,6 +97,9 @@ nnoremap <silent> <leader>ee :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
 " }}
 
+Bundle 'rking/ag.vim'
+
+Bundle 'ap/vim-buftabline'
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
