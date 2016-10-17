@@ -135,6 +135,8 @@ Bundle 'cespare/vim-toml'
 Bundle 'rking/ag.vim'
 
 Bundle 'ap/vim-buftabline'
+
+Bundle 'evanmiller/nginx-vim-syntax'
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
