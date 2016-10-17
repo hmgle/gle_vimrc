@@ -100,6 +100,8 @@ noremap <leader>yd :<C-u>Yde<CR>
 Bundle 'rking/ag.vim'
 
 Bundle 'ap/vim-buftabline'
+
+Bundle 'evanmiller/nginx-vim-syntax'
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
