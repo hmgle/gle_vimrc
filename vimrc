@@ -137,6 +137,7 @@ Bundle 'rking/ag.vim'
 Bundle 'ap/vim-buftabline'
 
 Bundle 'evanmiller/nginx-vim-syntax'
+Bundle 'digitaltoad/vim-pug'
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
