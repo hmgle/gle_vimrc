@@ -138,6 +138,10 @@ Bundle 'ap/vim-buftabline'
 
 Bundle 'evanmiller/nginx-vim-syntax'
 Bundle 'digitaltoad/vim-pug'
+Bundle 'junegunn/goyo.vim'
+Bundle 'marijnh/tern_for_vim', {'do': 'npm install'}
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-abolish'
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -600,6 +604,14 @@ endfunction
 
 " JavaScript 缩进 changed by hmg
 au FileType javascript setlocal et sta sw=4 sts=4
+
+" ----------------------------------------------------------------------------
+" tern_for_vim
+" ----------------------------------------------------------------------------
+let tern_show_signature_in_pum = 1
+let tern_show_argument_hints = 'on_hold'
+autocmd FileType javascript nnoremap <leader>d :TernDef<CR>
+autocmd FileType javascript setlocal omnifunc=tern#Complete
 
 " Erlang 缩进 changed by hmg
 au FileType erlang setlocal et sta sw=4 sts=4
