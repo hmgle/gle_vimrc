@@ -103,6 +103,8 @@ Bundle 'ap/vim-buftabline'
 
 Bundle 'evanmiller/nginx-vim-syntax'
 Bundle 'digitaltoad/vim-pug'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-abolish'
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
