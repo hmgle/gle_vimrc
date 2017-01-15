@@ -22,6 +22,8 @@ Bundle 'gmarik/vundle'
 Bundle "fatih/vim-go"
 " Enable goimports to automatically insert import paths instead of gofmt:
 let g:go_fmt_command = "goimports"
+" 避免和 NERDTreeTabsToggle 键冲突
+let g:go_def_mapping_enabled = 0
 " }}
 
 " Ruby
