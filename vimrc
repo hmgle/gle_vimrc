@@ -52,6 +52,8 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
+" 避免和 NERDTreeTabsToggle 键冲突
+let g:go_def_mapping_enabled = 0
 " }}
 
 " Ruby
