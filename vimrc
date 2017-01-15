@@ -53,7 +53,7 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
 \ }
 " 避免和 NERDTreeTabsToggle 键冲突
-let g:go_def_mapping_enabled = 0
+" let g:go_def_mapping_enabled = 0
 " }}
 
 " Ruby
@@ -84,7 +84,6 @@ Plugin 'asciidoc/vim-asciidoc'
 " nerdtree {{
 Plugin 'scrooloose/nerdtree'
 Bundle 'jistr/vim-nerdtree-tabs'
-map <C-T> :NERDTreeTabsToggle<CR>
 let g:NERDTreeWinSize=24
 " }}
 
@@ -1155,3 +1154,5 @@ xmap ga <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
+map <leader>tt :NERDTreeTabsToggle<CR>
