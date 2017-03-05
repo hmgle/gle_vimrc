@@ -93,7 +93,7 @@ Plugin 'tpope/vim-surround'
 " Plugin 'lilydjwg/fcitx.vim'
 
 " YCM
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 
 " snips {{
 " Track the engine.
@@ -143,7 +143,22 @@ Bundle 'junegunn/goyo.vim'
 Bundle 'marijnh/tern_for_vim', {'do': 'npm install'}
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-abolish'
+
+" python
+Plugin 'vim-scripts/indentpython.vim'
+Bundle 'davidhalter/jedi-vim'
+Bundle 'rkulla/pydiction'
+" let g:jedi#goto_command = "<leader>d"
+" let g:jedi#goto_assignments_command = "<leader>g"
+" let g:jedi#goto_definitions_command = ""
+" let g:jedi#documentation_command = "K"
+" let g:jedi#usages_command = "<leader>n"
+" let g:jedi#completions_command = "<C-Space>"
+" let g:jedi#rename_command = "<leader>r"
+Bundle 'ervandew/supertab'
+" let g:pydiction_location = '/home/gle/.vim/bundle/pydiction/complete-dict'
 " bundle end
+" let g:jedi#completions_command = "<C-N>"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
