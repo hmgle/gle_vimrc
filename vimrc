@@ -93,7 +93,10 @@ Plugin 'tpope/vim-surround'
 " Plugin 'lilydjwg/fcitx.vim'
 
 " YCM
-" Plugin 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
+" autocmd FileType c++ Bundle 'Valloric/YouCompleteMe'
+" autocmd FileType c Bundle 'Valloric/YouCompleteMe'
+" autocmd FileType go Bundle 'Valloric/YouCompleteMe'
 
 " snips {{
 " Track the engine.
@@ -158,7 +161,7 @@ Bundle 'rkulla/pydiction'
 Bundle 'ervandew/supertab'
 " let g:pydiction_location = '/home/gle/.vim/bundle/pydiction/complete-dict'
 " bundle end
-" let g:jedi#completions_command = "<C-N>"
+let g:jedi#completions_command = "<C-M>"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -1171,3 +1174,17 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 map <leader>tt :NERDTreeTabsToggle<CR>
+
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar' : 1,
+      \ 'qf' : 1,
+      \ 'notes' : 1,
+      \ 'markdown' : 1,
+      \ 'unite' : 1,
+      \ 'text' : 1,
+      \ 'vimwiki' : 1,
+      \ 'pandoc' : 1,
+      \ 'infolog' : 1,
+      \ 'python' : 1,
+      \ 'mail' : 1
+      \}
