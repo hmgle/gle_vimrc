@@ -90,7 +90,7 @@ let g:NERDTreeWinSize=24
 " Surround.vim is all about surroundings
 Plugin 'tpope/vim-surround'
 
-Plugin 'lilydjwg/fcitx.vim'
+" Plugin 'lilydjwg/fcitx.vim'
 
 " YCM
 Plugin 'Valloric/YouCompleteMe'
