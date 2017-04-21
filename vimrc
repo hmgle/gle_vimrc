@@ -150,7 +150,7 @@ Bundle 'tpope/vim-abolish'
 " python
 Plugin 'vim-scripts/indentpython.vim'
 Bundle 'davidhalter/jedi-vim'
-Bundle 'rkulla/pydiction'
+" Bundle 'rkulla/pydiction'
 " let g:jedi#goto_command = "<leader>d"
 " let g:jedi#goto_assignments_command = "<leader>g"
 " let g:jedi#goto_definitions_command = ""
@@ -931,7 +931,7 @@ augroup TabClosed
 augroup END
 
 au FileType c,cpp inoremap /* /*  */<ESC>hhi
-au FileType c,cpp,python,markdown,mkd,asciidoc,go,erlang,lua set colorcolumn=81
+au FileType c,cpp,python,asciidoc,go,erlang,lua set colorcolumn=81
 
 " 分界线颜色
 hi colorcolumn ctermbg=240 ctermfg=256
