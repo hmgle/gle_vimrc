@@ -160,6 +160,16 @@ Bundle 'davidhalter/jedi-vim'
 " let g:jedi#rename_command = "<leader>r"
 Bundle 'ervandew/supertab'
 " let g:pydiction_location = '/home/gle/.vim/bundle/pydiction/complete-dict'
+
+" rust
+Plugin 'rust-lang/rust.vim'
+
+" javascript
+" vim-javascript {{
+Plugin 'pangloss/vim-javascript'
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_flow = 1
+" }}
 " bundle end
 let g:jedi#completions_command = "<C-M>"
 
