@@ -140,7 +140,7 @@ Bundle 'rking/ag.vim'
 
 Bundle 'ap/vim-buftabline'
 
-Bundle 'evanmiller/nginx-vim-syntax'
+Bundle 'chr4/nginx.vim'
 Bundle 'digitaltoad/vim-pug'
 Bundle 'junegunn/goyo.vim'
 Bundle 'marijnh/tern_for_vim', {'do': 'npm install'}
