@@ -103,7 +103,7 @@ Bundle 'rking/ag.vim'
 
 Bundle 'ap/vim-buftabline'
 
-Bundle 'evanmiller/nginx-vim-syntax'
+Bundle 'chr4/nginx.vim'
 Bundle 'digitaltoad/vim-pug'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-abolish'
