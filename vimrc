@@ -143,6 +143,13 @@ Bundle 'junegunn/goyo.vim'
 Bundle 'marijnh/tern_for_vim', {'do': 'npm install'}
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-abolish'
+
+" draw
+Plugin 'gyim/vim-boxdraw'
+
+" rust
+Plugin 'rust-lang/rust.vim'
+Plugin 'racer-rust/vim-racer'
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1156,3 +1163,9 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 map <leader>tt :NERDTreeTabsToggle<CR>
+
+" rust
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
