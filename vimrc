@@ -12,6 +12,7 @@
 set nocompatible " be iMproved
 filetype off " required!
 set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.fzf
 call vundle#rc()
 
 " let Vundle manage Vundle
@@ -52,16 +53,15 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
+" let g:go_def_reuse_buffer = 1
+let g:go_def_mode = 'godef'
 " 避免和 NERDTreeTabsToggle 键冲突
 " let g:go_def_mapping_enabled = 0
 " }}
 
 " Ruby
 Plugin 'vim-ruby/vim-ruby'
-Plugin 'tpope/vim-rails'
-
-" ctrlp
-Bundle 'kien/ctrlp.vim'
+" Plugin 'tpope/vim-rails'
 
 " align {{
 Bundle 'junegunn/vim-easy-align'
@@ -117,6 +117,7 @@ let g:UltiSnipsUsePythonVersion = 2
 Bundle 'easymotion/vim-easymotion'
 map f <Plug>(easymotion-fl)
 map F <Plug>(easymotion-Fl)
+map s <Plug>(easymotion-s)
 " }}
 
 " With a map leader it's possible to do extra key combinations
@@ -150,6 +151,31 @@ Plugin 'gyim/vim-boxdraw'
 " rust
 Plugin 'rust-lang/rust.vim'
 Plugin 'racer-rust/vim-racer'
+
+" LeaderF {{
+" Bundle 'kien/ctrlp.vim'
+" Plugin 'Yggdroot/LeaderF'
+" let g:Lf_ShortcutF = '<c-p>'
+" let g:Lf_ShortcutB = '<m-n>'
+" noremap <c-n> :LeaderfMru<cr>
+" noremap <m-p> :LeaderfFunction!<cr>
+" noremap <m-n> :LeaderfBuffer<cr>
+" noremap <m-m> :LeaderfTag<cr>
+" let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
+"  
+" let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
+" let g:Lf_WorkingDirectoryMode = 'Ac'
+" let g:Lf_WindowHeight = 0.30
+" let g:Lf_CacheDirectory = expand('~/.vim/cache')
+" let g:Lf_ShowRelativePath = 0
+" let g:Lf_HideHelp = 1
+" let g:Lf_StlColorscheme = 'powerline'
+" let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
+Plugin 'junegunn/fzf.vim'
+" nnoremap <silent> <C-p> :FZF -m<cr>
+nnoremap <silent> <C-p> :FZF<cr>
+" }}
+Plugin 'davidhalter/jedi-vim'
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -714,7 +740,6 @@ let g:winManagerWindowLayout='FileExplorer|TagList'
 
 " 将插入模式aa映射为<esc>
 imap aa <esc>
-imap jj <esc>
 " :nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
 :nnoremap <silent><C-n> <C-w><C-]><C-w>T
 
@@ -1100,9 +1125,11 @@ au FileType c,cpp map <Leader>h :call MyC_Help("m")<CR>
 au FileType c,cpp map vh :call MyC_Help("m")<CR>
 au FileType go nmap <Leader>h <Plug>(go-doc)
 au FileType go nmap vh <Plug>(go-doc)
-au FileType go nmap <Leader>gd <Plug>(go-doc)
+" au FileType go nmap <Leader>gd <Plug>(go-doc)
 au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
 au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+" au FileType go nnoremap <silent> <C-i> :<C-u>GoDefByGuru<cr>
+au FileType go nmap <Leader>gd :<C-u>GoDefByGuru<cr>
 
 " 增加搜索项
 function! AddSearchStr(str)
