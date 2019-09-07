@@ -54,13 +54,16 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
 \ }
 " let g:go_def_reuse_buffer = 1
-let g:go_def_mode = 'godef'
+" let g:go_def_mode = 'godef'
 " 避免和 NERDTreeTabsToggle 键冲突
 " let g:go_def_mapping_enabled = 0
+let g:go_def_mode='gopls'
+let g:go_info_mode = 'gopls'
+" let g:go_auto_type_info = 1
 " }}
 
 " Ruby
-Plugin 'vim-ruby/vim-ruby'
+" Plugin 'vim-ruby/vim-ruby'
 " Plugin 'tpope/vim-rails'
 
 " align {{
@@ -76,7 +79,7 @@ Plugin 'tpope/vim-fugitive'
 
 " CoffeeScript
 " require vim 7.4+ coffee 1.2.0+
-Plugin 'kchmck/vim-coffee-script'
+" Plugin 'kchmck/vim-coffee-script'
 
 " asciidoc
 Plugin 'asciidoc/vim-asciidoc'
@@ -176,6 +179,14 @@ Plugin 'junegunn/fzf.vim'
 nnoremap <silent> <C-p> :FZF<cr>
 " }}
 Plugin 'davidhalter/jedi-vim'
+
+" 多光标选择
+" Plugin 'mg979/vim-visual-multi'
+
+" makrkdown... {{
+Plugin 'vim-pandoc/vim-pandoc-syntax'
+" }}
+
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -739,7 +750,7 @@ let g:winManagerWindowLayout='FileExplorer|TagList'
 " set maxmempattern=2500
 
 " 将插入模式aa映射为<esc>
-imap aa <esc>
+" imap aa <esc>
 " :nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
 :nnoremap <silent><C-n> <C-w><C-]><C-w>T
 
@@ -946,6 +957,9 @@ augroup END
 
 au FileType c,cpp inoremap /* /*  */<ESC>hhi
 au FileType c,cpp,python,markdown,mkd,asciidoc,go,erlang,lua set colorcolumn=81
+augroup pandoc_syntax
+	au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+augroup END
 
 " 分界线颜色
 hi colorcolumn ctermbg=240 ctermfg=256
