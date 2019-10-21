@@ -187,6 +187,8 @@ Plugin 'davidhalter/jedi-vim'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
 " }}
 
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'mattn/emmet-vim'
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -273,16 +275,16 @@ elseif MySys() == "linux"
   set shell=/bin/bash
 endif
 
-if has("gui_running")
-  set guioptions-=T
-  set background=dark
-  colorscheme peaksea
-  set nonu
-else
-  " colorscheme 256jungle
-  set background=dark
-  set nonu
-endif
+" if has("gui_running")
+"   set guioptions-=T
+"   set background=dark
+"   colorscheme peaksea
+"   set nonu
+" else
+"   " colorscheme 256jungle
+"   set background=dark
+"   set nonu
+" endif
 
 set t_Co=256
 
@@ -725,7 +727,8 @@ function! ClosePair(char)
     endif
 endf
 
-colorscheme 256jungle
+" colorscheme 256jungle
+colorscheme hmgle
 
 
 " 解决从windows拷贝过来的GBK格式乱码
