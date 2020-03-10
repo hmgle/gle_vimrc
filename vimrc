@@ -110,7 +110,7 @@ let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-let g:UltiSnipsUsePythonVersion = 2
+let g:UltiSnipsUsePythonVersion = 3
 
 " If you want :UltiSnipsEdit to split your window.
 " let g:UltiSnipsEditSplit="vertical"
@@ -129,7 +129,7 @@ let mapleader = ","
 let g:mapleader = ","
 
 " youdao-translater {{
-Bundle 'hmgle/vim-youdao-translater'
+Bundle 'ianva/vim-youdao-translater'
 vnoremap <silent> <leader>ee :<C-u>Ydv<CR>
 nnoremap <silent> <leader>ee :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
@@ -189,6 +189,7 @@ Plugin 'vim-pandoc/vim-pandoc-syntax'
 
 Plugin 'maksimr/vim-jsbeautify'
 Plugin 'mattn/emmet-vim'
+
 " bundle end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
