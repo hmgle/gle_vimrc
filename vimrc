@@ -1,74 +1,59 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Blog_post: 
-"       http://amix.dk/blog/post/19486#The-ultimate-vim-configuration-vimrc
-" Syntax_highlighted:
-"       http://amix.dk/vim/vimrc.html
-" Raw_version: 
-"       http://amix.dk/vim/vimrc.txt
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" bundle 配置
-set nocompatible " be iMproved
-filetype off " required!
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" let Vundle manage Vundle
-" required! 
-Bundle 'gmarik/vundle'
+" vim-plug
+call plug#begin('~/.vim/plugged')
 
 " {{ golang
-Bundle "fatih/vim-go"
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Enable goimports to automatically insert import paths instead of gofmt:
 let g:go_fmt_command = "goimports"
 " 避免和 NERDTreeTabsToggle 键冲突
 let g:go_def_mapping_enabled = 0
 " }}
 
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+
 " Ruby
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'tpope/vim-rails'
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
 
 " ctrlp
-Bundle 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim'
 
 " align {{
-Bundle 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align'
 let g:easy_align_ignore_groups = ['String']
 " }}
 
 " auto specific indentation for different project
-Bundle 'tpope/vim-sleuth'
+Plug 'tpope/vim-sleuth'
 
 " git
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 " CoffeeScript
 " require vim 7.4+ coffee 1.2.0+
-Plugin 'kchmck/vim-coffee-script'
+Plug 'kchmck/vim-coffee-script'
 
 " asciidoc
-Plugin 'asciidoc/vim-asciidoc'
+Plug 'asciidoc/vim-asciidoc'
 
 " nerdtree {{
-Plugin 'scrooloose/nerdtree'
-Bundle 'jistr/vim-nerdtree-tabs'
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
 map <C-T> :NERDTreeTabsToggle<CR>
 let g:NERDTreeWinSize=24
 " }}
 
 " Surround.vim is all about surroundings
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 
-Plugin 'lilydjwg/fcitx.vim'
+Plug 'lilydjwg/fcitx.vim'
 
 " snips {{
 " Track the engine.
-Plugin 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 
 " Snippets are separated from the engine. Add this if you want them:
-Plugin 'honza/vim-snippets'
+Plug 'honza/vim-snippets'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-j>"
@@ -82,7 +67,7 @@ let g:UltiSnipsUsePythonVersion = 3
 " }}
 
 " easymotion {{
-Bundle 'easymotion/vim-easymotion'
+Plug 'easymotion/vim-easymotion'
 map f <Plug>(easymotion-fl)
 map F <Plug>(easymotion-Fl)
 " }}
@@ -93,21 +78,23 @@ let mapleader = ","
 let g:mapleader = ","
 
 " youdao-translater {{
-Bundle 'ianva/vim-youdao-translater'
+Plug 'ianva/vim-youdao-translater'
 vnoremap <silent> <leader>ee :<C-u>Ydv<CR>
 nnoremap <silent> <leader>ee :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
 " }}
 
-Bundle 'rking/ag.vim'
+Plug 'rking/ag.vim'
 
-Bundle 'ap/vim-buftabline'
+Plug 'ap/vim-buftabline'
 
-Bundle 'chr4/nginx.vim'
-Bundle 'digitaltoad/vim-pug'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-abolish'
-" bundle end
+Plug 'chr4/nginx.vim'
+Plug 'digitaltoad/vim-pug'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-abolish'
+
+" Initialize plugin system
+call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -1113,3 +1100,75 @@ nmap ga <Plug>(EasyAlign)
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
+
+
+" -------------------------------------------------------------------------------------------------
+" coc.nvim default settings
+" -------------------------------------------------------------------------------------------------
+
+" if hidden is not set, TextEdit might fail.
+set hidden
+" Better display for messages
+set cmdheight=2
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+" always show signcolumns
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use `[c` and `]c` to navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use U to show documentation in preview window
+nnoremap <silent> U :call <SID>show_documentation()<CR>
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+vmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+" disable vim-go :GoDef short cut (gd)
+" this is handled by LanguageClient [LC]
+let g:go_def_mapping_enabled = 0
