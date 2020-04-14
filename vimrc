@@ -97,6 +97,7 @@ Plugin 'tpope/vim-surround'
 
 " YCM
 Plugin 'Valloric/YouCompleteMe'
+let g:ycm_always_populate_location_list = 1
 
 " snips {{
 " Track the engine.
