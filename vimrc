@@ -59,6 +59,7 @@ let g:tagbar_type_go = {
 " let g:go_def_mapping_enabled = 0
 let g:go_def_mode='gopls'
 let g:go_info_mode = 'gopls'
+let g:go_gopls_options = ['-remote=auto']
 " let g:go_auto_type_info = 1
 " }}
 
@@ -98,6 +99,7 @@ Plugin 'tpope/vim-surround'
 " YCM
 Plugin 'Valloric/YouCompleteMe'
 let g:ycm_always_populate_location_list = 1
+let g:ycm_gopls_binary_path = "$HOME/gopath/bin/gopls"
 
 " snips {{
 " Track the engine.
