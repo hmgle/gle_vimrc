@@ -84,6 +84,7 @@ Plug 'tpope/vim-surround'
 Plug 'Valloric/YouCompleteMe'
 let g:ycm_always_populate_location_list = 1
 let g:ycm_gopls_binary_path = "$HOME/gopath/bin/gopls"
+let g:ycm_gopls_args =  ['-remote=auto']
 
 " snips {{
 " Track the engine.
