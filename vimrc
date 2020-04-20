@@ -1,74 +1,94 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Blog_post: 
-"       http://amix.dk/blog/post/19486#The-ultimate-vim-configuration-vimrc
-" Syntax_highlighted:
-"       http://amix.dk/vim/vimrc.html
-" Raw_version: 
-"       http://amix.dk/vim/vimrc.txt
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" bundle 配置
 set nocompatible " be iMproved
-filetype off " required!
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
 
-" let Vundle manage Vundle
-" required! 
-Bundle 'gmarik/vundle'
+" vim-plug
+call plug#begin(get(g:, 'bundle_home', '~/.vim/bundle'))
 
 " {{ golang
-Bundle "fatih/vim-go"
+Plug 'majutsushi/tagbar'
+nmap <c-w><c-e> :TagbarToggle<CR>
+
+Plug 'fatih/vim-go', { 'tag': '*' }
 " Enable goimports to automatically insert import paths instead of gofmt:
 let g:go_fmt_command = "goimports"
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
+" let g:go_def_reuse_buffer = 1
+" let g:go_def_mode = 'godef'
 " 避免和 NERDTreeTabsToggle 键冲突
-let g:go_def_mapping_enabled = 0
+" let g:go_def_mapping_enabled = 0
+let g:go_def_mode='gopls'
+let g:go_info_mode = 'gopls'
+let g:go_gopls_options = ['-remote=auto']
+" let g:go_auto_type_info = 1
 " }}
 
 " Ruby
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'tpope/vim-rails'
-
-" ctrlp
-Bundle 'kien/ctrlp.vim'
+" Plug 'vim-ruby/vim-ruby'
+" Plug 'tpope/vim-rails'
 
 " align {{
-Bundle 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align'
 let g:easy_align_ignore_groups = ['String']
 " }}
 
 " auto specific indentation for different project
-Bundle 'tpope/vim-sleuth'
+Plug 'tpope/vim-sleuth'
 
 " git
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 " CoffeeScript
 " require vim 7.4+ coffee 1.2.0+
-Plugin 'kchmck/vim-coffee-script'
+" Plug 'kchmck/vim-coffee-script'
 
 " asciidoc
-Plugin 'asciidoc/vim-asciidoc'
+Plug 'asciidoc/vim-asciidoc'
 
 " nerdtree {{
-Plugin 'scrooloose/nerdtree'
-Bundle 'jistr/vim-nerdtree-tabs'
-map <C-T> :NERDTreeTabsToggle<CR>
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'jistr/vim-nerdtree-tabs'
 let g:NERDTreeWinSize=24
 " }}
 
 " Surround.vim is all about surroundings
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 
-Plugin 'lilydjwg/fcitx.vim'
+" Plug 'lilydjwg/fcitx.vim'
+
+" YCM
+Plug 'Valloric/YouCompleteMe'
+let g:ycm_always_populate_location_list = 1
+let g:ycm_gopls_binary_path = "$HOME/gopath/bin/gopls"
+let g:ycm_gopls_args =  ['-remote=auto']
 
 " snips {{
 " Track the engine.
-Plugin 'SirVer/ultisnips'
-
-" Snippets are separated from the engine. Add this if you want them:
-Plugin 'honza/vim-snippets'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-j>"
@@ -82,9 +102,10 @@ let g:UltiSnipsUsePythonVersion = 3
 " }}
 
 " easymotion {{
-Bundle 'easymotion/vim-easymotion'
+Plug 'easymotion/vim-easymotion'
 map f <Plug>(easymotion-fl)
 map F <Plug>(easymotion-Fl)
+map s <Plug>(easymotion-s)
 " }}
 
 " With a map leader it's possible to do extra key combinations
@@ -93,21 +114,76 @@ let mapleader = ","
 let g:mapleader = ","
 
 " youdao-translater {{
-Bundle 'ianva/vim-youdao-translater'
+Plug 'ianva/vim-youdao-translater'
 vnoremap <silent> <leader>ee :<C-u>Ydv<CR>
 nnoremap <silent> <leader>ee :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
 " }}
 
-Bundle 'rking/ag.vim'
+Plug 'cespare/vim-toml'
 
-Bundle 'ap/vim-buftabline'
+" Plug 'rking/ag.vim'
 
-Bundle 'chr4/nginx.vim'
-Bundle 'digitaltoad/vim-pug'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-abolish'
-" bundle end
+Plug 'ap/vim-buftabline'
+
+Plug 'evanmiller/nginx-vim-syntax'
+" " (formerly Jade) template engine syntax highlighting and indention
+" Plug 'digitaltoad/vim-pug'
+" " Distraction-free writing in Vim
+" Plug 'junegunn/goyo.vim'
+Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-abolish'
+
+" draw
+Plug 'gyim/vim-boxdraw'
+
+" rust
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'racer-rust/vim-racer', { 'for': 'rust' }
+
+"" ctrlp{{
+"" Plug 'kien/ctrlp.vim'
+"set grepprg=rg\ --color=never
+"let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+"let g:ctrlp_use_caching = 0
+"" }}
+
+" LeaderF {{
+Plug 'Yggdroot/LeaderF'
+let g:Lf_ShortcutF = '<c-p>'
+" let g:Lf_ShortcutB = '<m-n>'
+" noremap <c-n> :LeaderfMru<cr>
+" noremap <m-p> :LeaderfFunction!<cr>
+" noremap <m-n> :LeaderfBuffer<cr>
+" noremap <m-m> :LeaderfTag<cr>
+" let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
+"  
+" let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
+" let g:Lf_WorkingDirectoryMode = 'Ac'
+" let g:Lf_WindowHeight = 0.30
+" let g:Lf_CacheDirectory = expand('~/.vim/cache')
+" let g:Lf_ShowRelativePath = 0
+" let g:Lf_HideHelp = 1
+" let g:Lf_StlColorscheme = 'powerline'
+" let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
+Plug 'junegunn/fzf.vim'
+" nnoremap <silent> <C-p> :FZF -m<cr>
+" nnoremap <silent> <C-p> :FZF<cr>
+" }}
+Plug 'davidhalter/jedi-vim'
+
+" 多光标选择
+" Plug 'mg979/vim-visual-multi'
+
+" makrkdown... {{
+Plug 'vim-pandoc/vim-pandoc-syntax'
+" }}
+
+Plug 'maksimr/vim-jsbeautify'
+" Plug 'mattn/emmet-vim'
+
+call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -186,23 +262,21 @@ syntax enable "Enable syntax hl
 if MySys() == "mac"
   set gfn=Menlo:h14
   set shell=/bin/bash
-elseif MySys() == "windows"
-  set gfn=Bitstream\ Vera\ Sans\ Mono:h10
 elseif MySys() == "linux"
   set gfn=Monospace\ 10
   set shell=/bin/bash
 endif
 
-if has("gui_running")
-  set guioptions-=T
-  set background=dark
-  colorscheme peaksea
-  set nonu
-else
-  " colorscheme 256jungle
-  set background=dark
-  set nonu
-endif
+" if has("gui_running")
+"   set guioptions-=T
+"   set background=dark
+"   colorscheme peaksea
+"   set nonu
+" else
+"   " colorscheme 256jungle
+"   set background=dark
+"   set nonu
+" endif
 
 set t_Co=256
 
@@ -570,6 +644,14 @@ endfunction
 " JavaScript 缩进 changed by hmg
 au FileType javascript setlocal et sta sw=4 sts=4
 
+" ----------------------------------------------------------------------------
+" tern_for_vim
+" ----------------------------------------------------------------------------
+let tern_show_signature_in_pum = 1
+let tern_show_argument_hints = 'on_hold'
+autocmd FileType javascript nnoremap <leader>d :TernDef<CR>
+autocmd FileType javascript setlocal omnifunc=tern#Complete
+
 " Erlang 缩进 changed by hmg
 au FileType erlang setlocal et sta sw=4 sts=4
 
@@ -637,7 +719,8 @@ function! ClosePair(char)
     endif
 endf
 
-colorscheme 256jungle
+" colorscheme 256jungle
+colorscheme hmgle
 
 
 " 解决从windows拷贝过来的GBK格式乱码
@@ -662,8 +745,7 @@ let g:winManagerWindowLayout='FileExplorer|TagList'
 " set maxmempattern=2500
 
 " 将插入模式aa映射为<esc>
-imap aa <esc>
-imap jj <esc>
+" imap aa <esc>
 " :nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
 :nnoremap <silent><C-n> <C-w><C-]><C-w>T
 
@@ -870,9 +952,12 @@ augroup END
 
 au FileType c,cpp inoremap /* /*  */<ESC>hhi
 au FileType c,cpp,python,markdown,mkd,asciidoc,go,erlang,lua set colorcolumn=81
+augroup pandoc_syntax
+	au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+augroup END
 
 " 分界线颜色
-hi colorcolumn ctermbg=8 ctermfg=1
+hi colorcolumn ctermbg=240 ctermfg=256
 
 " 同级缩进块跳转
 function! JumpUp()
@@ -1049,9 +1134,11 @@ au FileType c,cpp map <Leader>h :call MyC_Help("m")<CR>
 au FileType c,cpp map vh :call MyC_Help("m")<CR>
 au FileType go nmap <Leader>h <Plug>(go-doc)
 au FileType go nmap vh <Plug>(go-doc)
-au FileType go nmap <Leader>gd <Plug>(go-doc)
+" au FileType go nmap <Leader>gd <Plug>(go-doc)
 au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
 au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+" au FileType go nnoremap <silent> <C-i> :<C-u>GoDefByGuru<cr>
+au FileType go nmap <Leader>gd :<C-u>GoDefByGuru<cr>
 
 " 增加搜索项
 function! AddSearchStr(str)
@@ -1113,3 +1200,11 @@ nmap ga <Plug>(EasyAlign)
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
+
+map <leader>tt :NERDTreeTabsToggle<CR>
+
+" rust
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
