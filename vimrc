@@ -1,13 +1,3 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Blog_post: 
-"       http://amix.dk/blog/post/19486#The-ultimate-vim-configuration-vimrc
-" Syntax_highlighted:
-"       http://amix.dk/vim/vimrc.html
-" Raw_version: 
-"       http://amix.dk/vim/vimrc.txt
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " bundle 配置
 set nocompatible " be iMproved
 filetype off " required!
@@ -158,10 +148,16 @@ Plugin 'gyim/vim-boxdraw'
 Plugin 'rust-lang/rust.vim'
 Plugin 'racer-rust/vim-racer'
 
+"" ctrlp{{
+"" Bundle 'kien/ctrlp.vim'
+"set grepprg=rg\ --color=never
+"let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+"let g:ctrlp_use_caching = 0
+"" }}
+
 " LeaderF {{
-" Bundle 'kien/ctrlp.vim'
-" Plugin 'Yggdroot/LeaderF'
-" let g:Lf_ShortcutF = '<c-p>'
+Plugin 'Yggdroot/LeaderF'
+let g:Lf_ShortcutF = '<c-p>'
 " let g:Lf_ShortcutB = '<m-n>'
 " noremap <c-n> :LeaderfMru<cr>
 " noremap <m-p> :LeaderfFunction!<cr>
@@ -179,7 +175,7 @@ Plugin 'racer-rust/vim-racer'
 " let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
 Plugin 'junegunn/fzf.vim'
 " nnoremap <silent> <C-p> :FZF -m<cr>
-nnoremap <silent> <C-p> :FZF<cr>
+" nnoremap <silent> <C-p> :FZF<cr>
 " }}
 Plugin 'davidhalter/jedi-vim'
 
@@ -272,8 +268,6 @@ syntax enable "Enable syntax hl
 if MySys() == "mac"
   set gfn=Menlo:h14
   set shell=/bin/bash
-elseif MySys() == "windows"
-  set gfn=Bitstream\ Vera\ Sans\ Mono:h10
 elseif MySys() == "linux"
   set gfn=Monospace\ 10
   set shell=/bin/bash
