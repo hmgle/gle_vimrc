@@ -1,19 +1,13 @@
-" bundle 配置
 set nocompatible " be iMproved
-filetype off " required!
-set rtp+=~/.vim/bundle/vundle/
-set rtp+=~/.fzf
-call vundle#rc()
 
-" let Vundle manage Vundle
-" required! 
-Bundle 'gmarik/vundle'
+" vim-plug
+call plug#begin(get(g:, 'bundle_home', '~/.vim/bundle'))
 
 " {{ golang
-Bundle "majutsushi/tagbar"
+Plug 'majutsushi/tagbar'
 nmap <c-w><c-e> :TagbarToggle<CR>
 
-Bundle "fatih/vim-go"
+Plug 'fatih/vim-go', { 'tag': '*' }
 " Enable goimports to automatically insert import paths instead of gofmt:
 let g:go_fmt_command = "goimports"
 let g:tagbar_type_go = {
@@ -54,49 +48,47 @@ let g:go_gopls_options = ['-remote=auto']
 " }}
 
 " Ruby
-" Plugin 'vim-ruby/vim-ruby'
-" Plugin 'tpope/vim-rails'
+" Plug 'vim-ruby/vim-ruby'
+" Plug 'tpope/vim-rails'
 
 " align {{
-Bundle 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align'
 let g:easy_align_ignore_groups = ['String']
 " }}
 
 " auto specific indentation for different project
-Bundle 'tpope/vim-sleuth'
+Plug 'tpope/vim-sleuth'
 
 " git
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 " CoffeeScript
 " require vim 7.4+ coffee 1.2.0+
-" Plugin 'kchmck/vim-coffee-script'
+" Plug 'kchmck/vim-coffee-script'
 
 " asciidoc
-Plugin 'asciidoc/vim-asciidoc'
+Plug 'asciidoc/vim-asciidoc'
 
 " nerdtree {{
-Plugin 'scrooloose/nerdtree'
-Bundle 'jistr/vim-nerdtree-tabs'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'jistr/vim-nerdtree-tabs'
 let g:NERDTreeWinSize=24
 " }}
 
 " Surround.vim is all about surroundings
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 
-" Plugin 'lilydjwg/fcitx.vim'
+" Plug 'lilydjwg/fcitx.vim'
 
 " YCM
-Plugin 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe'
 let g:ycm_always_populate_location_list = 1
 let g:ycm_gopls_binary_path = "$HOME/gopath/bin/gopls"
+let g:ycm_gopls_args =  ['-remote=auto']
 
 " snips {{
 " Track the engine.
-Plugin 'SirVer/ultisnips'
-
-" Snippets are separated from the engine. Add this if you want them:
-Plugin 'honza/vim-snippets'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-j>"
@@ -110,7 +102,7 @@ let g:UltiSnipsUsePythonVersion = 3
 " }}
 
 " easymotion {{
-Bundle 'easymotion/vim-easymotion'
+Plug 'easymotion/vim-easymotion'
 map f <Plug>(easymotion-fl)
 map F <Plug>(easymotion-Fl)
 map s <Plug>(easymotion-s)
@@ -122,41 +114,43 @@ let mapleader = ","
 let g:mapleader = ","
 
 " youdao-translater {{
-Bundle 'ianva/vim-youdao-translater'
+Plug 'ianva/vim-youdao-translater'
 vnoremap <silent> <leader>ee :<C-u>Ydv<CR>
 nnoremap <silent> <leader>ee :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
 " }}
 
-Bundle 'cespare/vim-toml'
+Plug 'cespare/vim-toml'
 
-Bundle 'rking/ag.vim'
+" Plug 'rking/ag.vim'
 
-Bundle 'ap/vim-buftabline'
+Plug 'ap/vim-buftabline'
 
-Bundle 'evanmiller/nginx-vim-syntax'
-Bundle 'digitaltoad/vim-pug'
-Bundle 'junegunn/goyo.vim'
-Bundle 'marijnh/tern_for_vim', {'do': 'npm install'}
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-abolish'
+Plug 'evanmiller/nginx-vim-syntax'
+" " (formerly Jade) template engine syntax highlighting and indention
+" Plug 'digitaltoad/vim-pug'
+" " Distraction-free writing in Vim
+" Plug 'junegunn/goyo.vim'
+Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-abolish'
 
 " draw
-Plugin 'gyim/vim-boxdraw'
+Plug 'gyim/vim-boxdraw'
 
 " rust
-Plugin 'rust-lang/rust.vim'
-Plugin 'racer-rust/vim-racer'
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 
 "" ctrlp{{
-"" Bundle 'kien/ctrlp.vim'
+"" Plug 'kien/ctrlp.vim'
 "set grepprg=rg\ --color=never
 "let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
 "let g:ctrlp_use_caching = 0
 "" }}
 
 " LeaderF {{
-Plugin 'Yggdroot/LeaderF'
+Plug 'Yggdroot/LeaderF'
 let g:Lf_ShortcutF = '<c-p>'
 " let g:Lf_ShortcutB = '<m-n>'
 " noremap <c-n> :LeaderfMru<cr>
@@ -173,23 +167,23 @@ let g:Lf_ShortcutF = '<c-p>'
 " let g:Lf_HideHelp = 1
 " let g:Lf_StlColorscheme = 'powerline'
 " let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
-Plugin 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim'
 " nnoremap <silent> <C-p> :FZF -m<cr>
 " nnoremap <silent> <C-p> :FZF<cr>
 " }}
-Plugin 'davidhalter/jedi-vim'
+Plug 'davidhalter/jedi-vim'
 
 " 多光标选择
-" Plugin 'mg979/vim-visual-multi'
+" Plug 'mg979/vim-visual-multi'
 
 " makrkdown... {{
-Plugin 'vim-pandoc/vim-pandoc-syntax'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 " }}
 
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'mattn/emmet-vim'
+Plug 'maksimr/vim-jsbeautify'
+" Plug 'mattn/emmet-vim'
 
-" bundle end
+call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
