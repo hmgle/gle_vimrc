@@ -4,7 +4,7 @@ set nocompatible " be iMproved
 call plug#begin(get(g:, 'bundle_home', '~/.vim/bundle'))
 
 " {{ golang
-Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 nmap <c-w><c-e> :TagbarToggle<CR>
 
 Plug 'fatih/vim-go', { 'tag': '*' }
@@ -70,7 +70,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'asciidoc/vim-asciidoc'
 
 " nerdtree {{
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeTabsToggle' }
 Plug 'jistr/vim-nerdtree-tabs'
 let g:NERDTreeWinSize=24
 " }}
@@ -122,7 +122,7 @@ noremap <leader>yd :<C-u>Yde<CR>
 
 Plug 'cespare/vim-toml'
 
-" Plug 'rking/ag.vim'
+Plug 'rking/ag.vim'
 
 Plug 'ap/vim-buftabline'
 
