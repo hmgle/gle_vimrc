@@ -184,6 +184,8 @@ Plug 'maksimr/vim-jsbeautify'
 " Plug 'mattn/emmet-vim'
 
 Plug 'dense-analysis/ale'
+nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)
+nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
 
 call plug#end()
 
@@ -663,14 +665,6 @@ au FileType erlang setlocal et sta sw=4 sts=4
 let MRU_Max_Entries = 400
 map <leader>f :MRU<CR>
 
-
-""""""""""""""""""""""""""""""
-" => Command-T
-""""""""""""""""""""""""""""""
-let g:CommandTMaxHeight = 15
-set wildignore+=*.o,*.obj,.git,*.pyc
-noremap <leader>j :CommandT<cr>
-noremap <leader>y :CommandTFlush<cr>
 
 
 """"""""""""""""""""""""""""""
