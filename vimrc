@@ -126,7 +126,7 @@ Plug 'rking/ag.vim'
 
 Plug 'ap/vim-buftabline'
 
-Plug 'evanmiller/nginx-vim-syntax'
+Plug 'chr4/nginx.vim'
 " " (formerly Jade) template engine syntax highlighting and indention
 " Plug 'digitaltoad/vim-pug'
 " " Distraction-free writing in Vim
@@ -182,6 +182,8 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 
 Plug 'maksimr/vim-jsbeautify'
 " Plug 'mattn/emmet-vim'
+
+Plug 'dense-analysis/ale'
 
 call plug#end()
 
