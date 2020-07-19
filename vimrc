@@ -184,8 +184,8 @@ Plug 'maksimr/vim-jsbeautify'
 " Plug 'mattn/emmet-vim'
 
 Plug 'dense-analysis/ale'
-nnoremap <silent> <leader>k <Plug>(ale_previous_wrap)
-nnoremap <silent> <leader>j <Plug>(ale_next_wrap)
+nmap <silent> <leader>k <Plug>(ale_previous_wrap)
+nmap <silent> <leader>j <Plug>(ale_next_wrap)
 
 call plug#end()
 
