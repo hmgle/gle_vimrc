@@ -434,12 +434,6 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
-" Close the current buffer
-map <leader>bd :Bclose<cr>
-
-" Close all the buffers
-map <leader>ba :1,300 bd!<cr>
-
 " Use the arrows to something usefull
 map <right> :bn<cr>
 map <left> :bp<cr>
@@ -686,8 +680,6 @@ map <leader>q :e ~/buffer<cr>
 au BufRead,BufNewFile ~/buffer iab <buffer> xh1 ===========================================
 
 map <leader>pp :setlocal paste!<cr>
-
-map <leader>bb :cd ..<cr>
 
 set nu
 set rnu
