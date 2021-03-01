@@ -52,8 +52,9 @@ let g:go_gopls_options = ['-remote=auto']
 " Plug 'tpope/vim-rails'
 
 " align {{
-Plug 'junegunn/vim-easy-align'
-let g:easy_align_ignore_groups = ['String']
+" Plug 'junegunn/vim-easy-align'
+" let g:easy_align_ignore_groups = ['String']
+Plug 'godlygeek/tabular'
 " }}
 
 " auto specific indentation for different project
@@ -122,7 +123,8 @@ noremap <leader>yd :<C-u>Yde<CR>
 
 Plug 'cespare/vim-toml'
 
-Plug 'rking/ag.vim'
+" Plug 'rking/ag.vim'
+Plug 'jremmen/vim-ripgrep'
 
 Plug 'ap/vim-buftabline'
 
@@ -152,6 +154,8 @@ Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 " LeaderF {{
 Plug 'Yggdroot/LeaderF'
 let g:Lf_ShortcutF = '<c-p>'
+" let g:Lf_UseMemoryCache = 0
+let g:Lf_UseCache = 0
 " let g:Lf_ShortcutB = '<m-n>'
 " noremap <c-n> :LeaderfMru<cr>
 " noremap <m-p> :LeaderfFunction!<cr>
@@ -186,6 +190,11 @@ Plug 'maksimr/vim-jsbeautify'
 Plug 'dense-analysis/ale'
 nmap <silent> <leader>k <Plug>(ale_previous_wrap)
 nmap <silent> <leader>j <Plug>(ale_next_wrap)
+
+Plug 'elixir-editors/vim-elixir'
+Plug 'slashmili/alchemist.vim'
+
+Plug 'elmcast/elm-vim'
 
 call plug#end()
 
@@ -1193,3 +1202,4 @@ au FileType rust nmap gd <Plug>(rust-def)
 au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
+let g:rustfmt_autosave = 1
