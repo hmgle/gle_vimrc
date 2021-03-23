@@ -190,6 +190,10 @@ Plug 'maksimr/vim-jsbeautify'
 Plug 'dense-analysis/ale'
 nmap <silent> <leader>k <Plug>(ale_previous_wrap)
 nmap <silent> <leader>j <Plug>(ale_next_wrap)
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 0
+" check code manually :ALELint
 
 Plug 'elixir-editors/vim-elixir'
 Plug 'slashmili/alchemist.vim'
