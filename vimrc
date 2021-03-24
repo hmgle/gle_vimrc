@@ -52,8 +52,9 @@ let g:go_gopls_options = ['-remote=auto']
 " Plug 'tpope/vim-rails'
 
 " align {{
-Plug 'junegunn/vim-easy-align'
-let g:easy_align_ignore_groups = ['String']
+" Plug 'junegunn/vim-easy-align'
+" let g:easy_align_ignore_groups = ['String']
+Plug 'godlygeek/tabular'
 " }}
 
 " auto specific indentation for different project
@@ -124,6 +125,8 @@ Plug 'cespare/vim-toml'
 
 Plug 'rking/ag.vim'
 
+Plug 'dyng/ctrlsf.vim'
+
 Plug 'ap/vim-buftabline'
 
 Plug 'evanmiller/nginx-vim-syntax'
@@ -139,8 +142,10 @@ Plug 'tpope/vim-abolish'
 Plug 'gyim/vim-boxdraw'
 
 " rust
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-Plug 'racer-rust/vim-racer', { 'for': 'rust' }
+" Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+" Plug 'racer-rust/vim-racer', { 'for': 'rust' }
+Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
 
 "" ctrlp{{
 "" Plug 'kien/ctrlp.vim'
@@ -152,6 +157,9 @@ Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 " LeaderF {{
 Plug 'Yggdroot/LeaderF'
 let g:Lf_ShortcutF = '<c-p>'
+noremap <leader>f :LeaderfFunction!<cr>
+let g:Lf_ShowDevIcons = 0
+" let g:Lf_WindowPosition = 'popup'
 " let g:Lf_ShortcutB = '<m-n>'
 " noremap <c-n> :LeaderfMru<cr>
 " noremap <m-p> :LeaderfFunction!<cr>
@@ -167,6 +175,7 @@ let g:Lf_ShortcutF = '<c-p>'
 " let g:Lf_HideHelp = 1
 " let g:Lf_StlColorscheme = 'powerline'
 " let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
+
 Plug 'junegunn/fzf.vim'
 " nnoremap <silent> <C-p> :FZF -m<cr>
 " nnoremap <silent> <C-p> :FZF<cr>
@@ -182,6 +191,18 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 
 Plug 'maksimr/vim-jsbeautify'
 " Plug 'mattn/emmet-vim'
+
+Plug 'dense-analysis/ale'
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 0
+nmap <silent> <leader>k <Plug>(ale_previous_wrap)
+nmap <silent> <leader>j <Plug>(ale_next_wrap)
+
+Plug 'slashmili/alchemist.vim'
+Plug 'elixir-editors/vim-elixir'
+
+Plug 'elmcast/elm-vim'
 
 call plug#end()
 
@@ -431,10 +452,7 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 
 " Close the current buffer
-map <leader>bd :Bclose<cr>
-
-" Close all the buffers
-map <leader>ba :1,300 bd!<cr>
+" map <leader>bd :Bclose<cr>
 
 " Use the arrows to something usefull
 map <right> :bn<cr>
@@ -655,20 +673,6 @@ autocmd FileType javascript setlocal omnifunc=tern#Complete
 " Erlang 缩进 changed by hmg
 au FileType erlang setlocal et sta sw=4 sts=4
 
-""""""""""""""""""""""""""""""
-" => MRU plugin
-""""""""""""""""""""""""""""""
-let MRU_Max_Entries = 400
-map <leader>f :MRU<CR>
-
-
-""""""""""""""""""""""""""""""
-" => Command-T
-""""""""""""""""""""""""""""""
-let g:CommandTMaxHeight = 15
-set wildignore+=*.o,*.obj,.git,*.pyc
-noremap <leader>j :CommandT<cr>
-noremap <leader>y :CommandTFlush<cr>
 
 
 """"""""""""""""""""""""""""""
@@ -690,8 +694,6 @@ map <leader>q :e ~/buffer<cr>
 au BufRead,BufNewFile ~/buffer iab <buffer> xh1 ===========================================
 
 map <leader>pp :setlocal paste!<cr>
-
-map <leader>bb :cd ..<cr>
 
 set nu
 set rnu
@@ -951,7 +953,7 @@ augroup TabClosed
 augroup END
 
 au FileType c,cpp inoremap /* /*  */<ESC>hhi
-au FileType c,cpp,python,markdown,mkd,asciidoc,go,erlang,lua set colorcolumn=81
+au FileType c,cpp,python,markdown,mkd,asciidoc,go,erlang,lua set colorcolumn=101
 augroup pandoc_syntax
 	au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
 augroup END
