@@ -5,8 +5,11 @@
 +
 [source,bash]
 ----
+# Debian/Ubuntu
 sudo apt-get install exuberant-ctags
 sudo apt-get install cscope
+# Arch
+sudo pacman -Sy cscope ctags
 ----
 
 . 下载
