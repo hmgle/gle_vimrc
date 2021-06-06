@@ -125,6 +125,7 @@ Plug 'cespare/vim-toml'
 
 " Plug 'rking/ag.vim'
 Plug 'jremmen/vim-ripgrep'
+Plug 'dyng/ctrlsf.vim'
 
 Plug 'ap/vim-buftabline'
 
