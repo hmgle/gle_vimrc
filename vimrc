@@ -201,6 +201,8 @@ Plug 'slashmili/alchemist.vim'
 
 Plug 'elmcast/elm-vim'
 
+Plug 'roxma/vim-paste-easy'
+
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
