@@ -9,7 +9,9 @@ nmap <c-w><c-e> :TagbarToggle<CR>
 
 Plug 'fatih/vim-go', { 'tag': '*' }
 " Enable goimports to automatically insert import paths instead of gofmt:
-let g:go_fmt_command = "goimports"
+" let g:go_fmt_command = "goimports"
+let g:go_fmt_command = "gopls"
+let g:go_gopls_gofumpt = 1
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
     \ 'kinds'     : [
@@ -43,6 +45,7 @@ let g:tagbar_type_go = {
 " let g:go_def_mapping_enabled = 0
 let g:go_def_mode='gopls'
 let g:go_info_mode = 'gopls'
+" let g:go_gopls_options = ['-remote=auto', '-remote.logfile=auto', '-rpc.trace', '-debug=:0', '-remote.debug=:0']
 let g:go_gopls_options = ['-remote=auto']
 " let g:go_auto_type_info = 1
 " }}
@@ -155,7 +158,7 @@ Plug 'racer-rust/vim-racer'
 "" }}
 
 " LeaderF {{
-Plug 'Yggdroot/LeaderF'
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 let g:Lf_ShortcutF = '<c-p>'
 noremap <leader>f :LeaderfFunction!<cr>
 let g:Lf_ShowDevIcons = 0
@@ -185,8 +188,9 @@ Plug 'davidhalter/jedi-vim'
 " 多光标选择
 " Plug 'mg979/vim-visual-multi'
 
-" makrkdown... {{
+" markdown... {{
 Plug 'vim-pandoc/vim-pandoc-syntax'
+" Plug 'plasticboy/vim-markdown'
 " }}
 
 Plug 'maksimr/vim-jsbeautify'
@@ -196,6 +200,7 @@ Plug 'dense-analysis/ale'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 0
 nmap <silent> <leader>k <Plug>(ale_previous_wrap)
 nmap <silent> <leader>j <Plug>(ale_next_wrap)
 
@@ -203,6 +208,12 @@ Plug 'slashmili/alchemist.vim'
 Plug 'elixir-editors/vim-elixir'
 
 Plug 'elmcast/elm-vim'
+
+" 颜色主题
+" Plug 'morhetz/gruvbox'
+" 彩虹括号
+Plug 'luochen1990/rainbow'
+let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
 
 call plug#end()
 
@@ -723,6 +734,8 @@ endf
 
 " colorscheme 256jungle
 colorscheme hmgle
+" colorscheme summerfruit256
+" colorscheme gruvbox
 
 
 " 解决从windows拷贝过来的GBK格式乱码
