@@ -7,7 +7,7 @@ call plug#begin(get(g:, 'bundle_home', '~/.vim/bundle'))
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 nmap <c-w><c-e> :TagbarToggle<CR>
 
-Plug 'fatih/vim-go', { 'tag': '*' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Enable goimports to automatically insert import paths instead of gofmt:
 let g:go_fmt_command = "goimports"
 let g:tagbar_type_go = {
