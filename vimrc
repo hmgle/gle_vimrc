@@ -3,6 +3,8 @@ set nocompatible " be iMproved
 " vim-plug
 call plug#begin(get(g:, 'bundle_home', '~/.vim/bundle'))
 
+Plug 'yianwillis/vimcdoc'
+
 " {{ golang
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 nmap <c-w><c-e> :TagbarToggle<CR>
@@ -132,7 +134,7 @@ Plug 'dyng/ctrlsf.vim'
 
 Plug 'ap/vim-buftabline'
 
-Plug 'evanmiller/nginx-vim-syntax'
+Plug 'chr4/nginx.vim'
 " " (formerly Jade) template engine syntax highlighting and indention
 " Plug 'digitaltoad/vim-pug'
 " " Distraction-free writing in Vim
@@ -1212,6 +1214,9 @@ xmap ga <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
 
 map <leader>tt :NERDTreeTabsToggle<CR>
 
