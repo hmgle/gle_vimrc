@@ -3,6 +3,8 @@ set nocompatible " be iMproved
 " vim-plug
 call plug#begin(get(g:, 'bundle_home', '~/.vim/bundle'))
 
+Plug 'yianwillis/vimcdoc'
+
 " {{ golang
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 nmap <c-w><c-e> :TagbarToggle<CR>
