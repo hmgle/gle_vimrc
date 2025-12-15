@@ -74,10 +74,24 @@ set completeopt=menu,menuone,noselect
 set mouse=a
 
 " 剪贴板
-if has('unnamedplus')
-    set clipboard=unnamedplus
+if has('clipboard')
+    if has('unnamedplus')
+        set clipboard=unnamedplus
+    else
+        set clipboard=unnamed
+    endif
 else
-    set clipboard=unnamed
+    " Vim 没有 clipboard 支持时，使用 xclip 作为替代
+    if executable('xclip')
+        " y 复制到系统剪贴板
+        vnoremap y y:call system('xclip -selection clipboard', @")<CR>
+        nnoremap yy yy:call system('xclip -selection clipboard', @")<CR>
+        nnoremap Y y$:call system('xclip -selection clipboard', @")<CR>
+        " p 从系统剪贴板粘贴
+        nnoremap p :let @"=system('xclip -selection clipboard -o')<CR>p
+        nnoremap P :let @"=system('xclip -selection clipboard -o')<CR>P
+        vnoremap p :let @"=system('xclip -selection clipboard -o')<CR>gvp
+    endif
 endif
 
 " 终端真彩色支持
