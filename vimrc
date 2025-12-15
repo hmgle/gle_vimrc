@@ -80,27 +80,22 @@ if has('clipboard')
     else
         set clipboard=unnamed
     endif
-else
+elseif executable('xclip') && exists('##TextYankPost')
     " Vim 没有 clipboard 支持时，使用 xclip 作为替代
     " 通过 TextYankPost 自动同步所有 yank 操作到系统剪贴板
-    if executable('xclip') && exists('##TextYankPost')
-        augroup YankToClipboard
-            autocmd!
-            autocmd TextYankPost * call system('xclip -selection clipboard', join(v:event.regcontents, "\n"))
-        augroup END
+    augroup YankToClipboard
+        autocmd!
+        autocmd TextYankPost * call system('xclip -selection clipboard', join(v:event.regcontents, "\n"))
+    augroup END
 
-        " 从系统剪贴板粘贴
-        function! s:paste_from_clipboard(cmd) abort
-            let l:content = system('xclip -selection clipboard -o')
-            if v:shell_error == 0
-                let @" = l:content
-            endif
-            execute 'normal! ' . a:cmd
-        endfunction
+    " 从系统剪贴板粘贴
+    function! s:PasteFromClipboard(cmd) abort
+        let @" = system('xclip -selection clipboard -o')
+        execute 'normal! ' . a:cmd
+    endfunction
 
-        nnoremap <silent> p :call <SID>paste_from_clipboard('p')<CR>
-        nnoremap <silent> P :call <SID>paste_from_clipboard('P')<CR>
-    endif
+    nnoremap <silent> p :call <SID>PasteFromClipboard('p')<CR>
+    nnoremap <silent> P :call <SID>PasteFromClipboard('P')<CR>
 endif
 
 " 终端真彩色支持
@@ -244,9 +239,6 @@ Plug 'RRethy/vim-illuminate'
 
 " 匹配增强
 Plug 'andymass/vim-matchup'
-
-" Yank 历史
-Plug 'svermeulen/vim-yoink'
 
 " 替换操作
 Plug 'svermeulen/vim-subversive'
@@ -462,15 +454,6 @@ nnoremap <leader>N :lua vim.lsp.buf.goto_prev_reference()<CR>
 " 注意：vim-illuminate 在 vim 中功能受限，使用 ]r [r 跳转
 nmap <leader>n <Plug>(Illuminate_next_reference)
 nmap <leader>N <Plug>(Illuminate_prev_reference)
-
-" ----------------------------- vim-yoink 配置 --------------------------------
-nmap <c-n> <plug>(YoinkPostPasteSwapBack)
-nmap <c-m> <plug>(YoinkPostPasteSwapForward)
-nmap p <plug>(YoinkPaste_p)
-nmap P <plug>(YoinkPaste_P)
-nmap gp <plug>(YoinkPaste_gp)
-nmap gP <plug>(YoinkPaste_gP)
-let g:yoinkIncludeDeleteOperations = 1
 
 " ----------------------------- vim-subversive 配置 ---------------------------
 " 类似 substitute.nvim
