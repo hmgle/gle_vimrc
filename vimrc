@@ -88,9 +88,18 @@ else
             autocmd!
             autocmd TextYankPost * call system('xclip -selection clipboard', join(v:event.regcontents, "\n"))
         augroup END
-        " p 从系统剪贴板粘贴
-        nnoremap p :let @"=system('xclip -selection clipboard -o')<CR>p
-        nnoremap P :let @"=system('xclip -selection clipboard -o')<CR>P
+
+        " 从系统剪贴板粘贴
+        function! s:paste_from_clipboard(cmd) abort
+            let l:content = system('xclip -selection clipboard -o')
+            if v:shell_error == 0
+                let @" = l:content
+            endif
+            execute 'normal! ' . a:cmd
+        endfunction
+
+        nnoremap <silent> p :call <SID>paste_from_clipboard('p')<CR>
+        nnoremap <silent> P :call <SID>paste_from_clipboard('P')<CR>
     endif
 endif
 
