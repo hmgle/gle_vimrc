@@ -88,6 +88,7 @@ brew install vim node fzf ripgrep ctags
 | vim-airline | 状态栏 | nvim-hardline |
 | NERDTree | 文件浏览器 | nvim-tree |
 | fzf.vim | 模糊搜索 | telescope.nvim |
+| fzf-filemru | frecency 文件排序 | snacks.picker.smart |
 | coc.nvim | LSP 补全 | nvim-lspconfig + blink.cmp |
 | vim-fugitive | Git 集成 | 相同 |
 | vim-gitgutter | Git 状态 | - |
@@ -177,18 +178,21 @@ brew install vim node fzf ripgrep ctags
 | `I` | 切换隐藏文件显示 |
 | `?` | 显示帮助 |
 
-### 模糊搜索 (FZF)
+### 模糊搜索 (FZF + fzf-filemru)
+
+使用 [fzf-filemru](https://github.com/tweekmonster/fzf-filemru) 实现 frecency（频率+最近）排序，类似 Neovim 的 snacks.picker.smart。
 
 | 快捷键 | 模式 | 功能 |
 |--------|------|------|
-| `<C-p>` | Normal | 文件搜索 |
-| `<leader>ff` | Normal | 文件搜索 |
+| `<C-p>` | Normal | **智能文件搜索** (最近文件优先，frecency 排序) |
+| `<leader>ff` | Normal | 普通文件搜索 |
+| `<leader>fz` | Normal | MRU 文件搜索 |
 | `<leader>fg` | Normal | 全局内容搜索 (ripgrep) |
 | `<leader>fl` | Normal | 所有 buffer 行搜索 |
 | `<leader>fb` | Normal | 当前 buffer 行搜索 |
 | `<leader>b` | Normal | Buffer 列表 |
 | `<leader>fh` | Normal | 帮助文档搜索 |
-| `<leader>fr` | Normal | 最近文件历史 |
+| `<leader>fr` | Normal | 最近文件历史 (vim 原生) |
 | `<leader>*` | Normal | 搜索光标下的单词 |
 
 **FZF 窗口内快捷键:**

@@ -179,6 +179,7 @@ Plug 'ryanoasis/vim-devicons'
 " 模糊搜索
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'tweekmonster/fzf-filemru'  " frecency 排序 (最近+频率)
 
 " Git 集成
 Plug 'tpope/vim-fugitive'
@@ -294,6 +295,11 @@ autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTa
 let g:fzf_layout = { 'down': '~40%' }
 let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 
+" fzf-filemru 配置 (frecency 排序)
+let g:fzf_filemru_bufwrite = 1        " 保存文件时更新 MRU
+let g:fzf_filemru_git_ls = 1          " 使用 git ls-files (更快)
+let g:fzf_filemru_ignore_submodule = 1
+
 " 快捷键映射 (与 Neovim telescope 类似)
 nnoremap <leader>ff :Files<CR>
 nnoremap <leader>fg :Rg<CR>
@@ -303,7 +309,9 @@ nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>fh :Helptags<CR>
 nnoremap <leader>* :Rg <C-R><C-W><CR>
 nnoremap <leader>fr :History<CR>
-nnoremap <C-p> :Files<CR>
+" Ctrl+P 使用 ProjectMru - 最近文件排在前面 (类似 snacks.picker.smart)
+nnoremap <C-p> :ProjectMru --tiebreak=index<CR>
+nnoremap <leader>fz :FilesMru<CR>
 
 " FZF 窗口内快捷键
 let g:fzf_action = {
