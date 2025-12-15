@@ -401,9 +401,9 @@ nnoremap <leader>sS :<C-u>CocList -I symbols<CR>
 " 类似 flash.nvim 的快速跳转
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_do_mapping = 0
-nmap s <Plug>(easymotion-overwin-f2)
-xmap s <Plug>(easymotion-overwin-f2)
-omap s <Plug>(easymotion-overwin-f2)
+nmap s <Plug>(easymotion-overwin-f)
+xmap s <Plug>(easymotion-overwin-f)
+omap s <Plug>(easymotion-overwin-f)
 
 " ----------------------------- Tagbar 配置 -----------------------------------
 let g:tagbar_silent = 1
