@@ -485,7 +485,7 @@ let g:switch_custom_definitions =
 
 " ----------------------------- vim-matchup 配置 ------------------------------
 let g:matchup_matchparen_offscreen = {'method': 'popup'}
-highlight OffscreenPopup guibg=#FF0000CC guifg=blue
+highlight OffscreenPopup guibg=#FF0000 guifg=blue
 
 " ----------------------------- vim-go 配置 -----------------------------------
 let g:go_fmt_autosave = 1
