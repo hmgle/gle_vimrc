@@ -82,15 +82,15 @@ if has('clipboard')
     endif
 else
     " Vim 没有 clipboard 支持时，使用 xclip 作为替代
-    if executable('xclip')
-        " y 复制到系统剪贴板
-        vnoremap y y:call system('xclip -selection clipboard', @")<CR>
-        nnoremap yy yy:call system('xclip -selection clipboard', @")<CR>
-        nnoremap Y y$:call system('xclip -selection clipboard', @")<CR>
+    " 通过 TextYankPost 自动同步所有 yank 操作到系统剪贴板
+    if executable('xclip') && exists('##TextYankPost')
+        augroup YankToClipboard
+            autocmd!
+            autocmd TextYankPost * call system('xclip -selection clipboard', join(v:event.regcontents, "\n"))
+        augroup END
         " p 从系统剪贴板粘贴
         nnoremap p :let @"=system('xclip -selection clipboard -o')<CR>p
         nnoremap P :let @"=system('xclip -selection clipboard -o')<CR>P
-        vnoremap p :let @"=system('xclip -selection clipboard -o')<CR>gvp
     endif
 endif
 
