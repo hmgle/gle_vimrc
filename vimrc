@@ -1,1212 +1,627 @@
-set nocompatible " be iMproved
+" =============================================================================
+" Vim Configuration - 基于 Neovim 配置转换
+" =============================================================================
 
-" vim-plug
-call plug#begin(get(g:, 'bundle_home', '~/.vim/bundle'))
+" ----------------------------- 基本设置 --------------------------------------
+set nocompatible
+filetype plugin indent on
+syntax enable
 
-Plug 'yianwillis/vimcdoc'
+" PlantUML 文件类型检测（配合 vim-plug 的 { 'for': 'plantuml' } 懒加载）
+augroup PlantumlFiletypeDetect
+    autocmd!
+    autocmd BufNewFile,BufRead *.puml,*.plantuml,*.pu setfiletype plantuml
+augroup END
 
-" {{ golang
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-nmap <c-w><c-e> :TagbarToggle<CR>
+" Leader 键
+let mapleader = ','
+let maplocalleader = ','
 
-Plug 'fatih/vim-go', { 'tag': '*' }
-" Enable goimports to automatically insert import paths instead of gofmt:
-let g:go_fmt_command = "goimports"
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-\ }
-" let g:go_def_reuse_buffer = 1
-" let g:go_def_mode = 'godef'
-" 避免和 NERDTreeTabsToggle 键冲突
-" let g:go_def_mapping_enabled = 0
-let g:go_def_mode='gopls'
-let g:go_info_mode = 'gopls'
-let g:go_gopls_options = ['-remote=auto']
-" let g:go_auto_type_info = 1
-" }}
+" 编码设置
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8,gbk,ucs-bom,cp936,gb18030
 
-" Ruby
-" Plug 'vim-ruby/vim-ruby'
-" Plug 'tpope/vim-rails'
+" 行号
+set number
+set relativenumber
 
-" align {{
-Plug 'junegunn/vim-easy-align'
-let g:easy_align_ignore_groups = ['String']
-" }}
-
-" auto specific indentation for different project
-Plug 'tpope/vim-sleuth'
-
-" git
-Plug 'tpope/vim-fugitive'
-
-" CoffeeScript
-" require vim 7.4+ coffee 1.2.0+
-" Plug 'kchmck/vim-coffee-script'
-
-" asciidoc
-Plug 'asciidoc/vim-asciidoc'
-
-" nerdtree {{
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeTabsToggle' }
-Plug 'jistr/vim-nerdtree-tabs'
-let g:NERDTreeWinSize=24
-" }}
-
-" Surround.vim is all about surroundings
-Plug 'tpope/vim-surround'
-
-" Plug 'lilydjwg/fcitx.vim'
-
-" YCM
-Plug 'Valloric/YouCompleteMe'
-let g:ycm_always_populate_location_list = 1
-let g:ycm_gopls_binary_path = "$HOME/gopath/bin/gopls"
-let g:ycm_gopls_args =  ['-remote=auto']
-
-" snips {{
-" Track the engine.
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-let g:UltiSnipsUsePythonVersion = 3
-
-" If you want :UltiSnipsEdit to split your window.
-" let g:UltiSnipsEditSplit="vertical"
-" }}
-
-" easymotion {{
-Plug 'easymotion/vim-easymotion'
-map f <Plug>(easymotion-fl)
-map F <Plug>(easymotion-Fl)
-map s <Plug>(easymotion-s)
-" }}
-
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-let mapleader = ","
-let g:mapleader = ","
-
-" youdao-translater {{
-Plug 'ianva/vim-youdao-translater'
-vnoremap <silent> <leader>ee :<C-u>Ydv<CR>
-nnoremap <silent> <leader>ee :<C-u>Ydc<CR>
-noremap <leader>yd :<C-u>Yde<CR>
-" }}
-
-Plug 'cespare/vim-toml'
-
-Plug 'rking/ag.vim'
-
-Plug 'ap/vim-buftabline'
-
-Plug 'chr4/nginx.vim'
-" " (formerly Jade) template engine syntax highlighting and indention
-" Plug 'digitaltoad/vim-pug'
-" " Distraction-free writing in Vim
-" Plug 'junegunn/goyo.vim'
-Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-abolish'
-
-" draw
-Plug 'gyim/vim-boxdraw'
-
-" rust
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-Plug 'racer-rust/vim-racer', { 'for': 'rust' }
-
-"" ctrlp{{
-"" Plug 'kien/ctrlp.vim'
-"set grepprg=rg\ --color=never
-"let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
-"let g:ctrlp_use_caching = 0
-"" }}
-
-" LeaderF {{
-Plug 'Yggdroot/LeaderF'
-let g:Lf_ShortcutF = '<c-p>'
-" let g:Lf_ShortcutB = '<m-n>'
-" noremap <c-n> :LeaderfMru<cr>
-" noremap <m-p> :LeaderfFunction!<cr>
-" noremap <m-n> :LeaderfBuffer<cr>
-" noremap <m-m> :LeaderfTag<cr>
-" let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
-"  
-" let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
-" let g:Lf_WorkingDirectoryMode = 'Ac'
-" let g:Lf_WindowHeight = 0.30
-" let g:Lf_CacheDirectory = expand('~/.vim/cache')
-" let g:Lf_ShowRelativePath = 0
-" let g:Lf_HideHelp = 1
-" let g:Lf_StlColorscheme = 'powerline'
-" let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
-Plug 'junegunn/fzf.vim'
-" nnoremap <silent> <C-p> :FZF -m<cr>
-" nnoremap <silent> <C-p> :FZF<cr>
-" }}
-Plug 'davidhalter/jedi-vim'
-
-" 多光标选择
-" Plug 'mg979/vim-visual-multi'
-
-" makrkdown... {{
-Plug 'vim-pandoc/vim-pandoc-syntax'
-" }}
-
-Plug 'maksimr/vim-jsbeautify'
-" Plug 'mattn/emmet-vim'
-
-call plug#end()
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Sets how many lines of history VIM has to remember
-set history=1700
-
-" Enable filetype plugin
-filetype plugin on
-filetype indent on
-
-au BufRead,BufNewFile *.{asciidoc,adoc,ad} set filetype=asciidoc
-
-" Set to auto read when a file is changed from the outside
-set autoread
-
-" Fast saving
-nmap <leader>w :w!<cr>
-
-" When vimrc is edited, reload it
-autocmd! bufwritepost .vimrc source ~/.vimrc
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set 2 lines to the curors - when moving vertical..
-set so=2
-
-set wildmenu "Turn on WiLd menu
-
-set ruler "Always show current position
-
-" 缺省为 1
-" set cmdheight=1 "The commandbar height
-
-set hid "Change buffer - without saving
-
-" Set backspace config
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
-
-set ignorecase "Ignore case when searching
-set smartcase
-
-set hlsearch "Highlight search things
-
-set incsearch "Make search act like search in modern browsers
-set nolazyredraw "Don't redraw while executing macros 
-
-set magic "Set magic on, for regular expressions
-
-set showmatch "Show matching bracets when text indicator is over them
-set mat=2 "How many tenths of a second to blink
-
-" No sound on errors
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
-
-" 显示窗口末行尽量多的内容
-set dy+=lastline
-
-function! MySys()
-	return 'linux'
-endfunction
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-syntax enable "Enable syntax hl
-
-" Set font according to system
-if MySys() == "mac"
-  set gfn=Menlo:h14
-  set shell=/bin/bash
-elseif MySys() == "linux"
-  set gfn=Monospace\ 10
-  set shell=/bin/bash
-endif
-
-" if has("gui_running")
-"   set guioptions-=T
-"   set background=dark
-"   colorscheme peaksea
-"   set nonu
-" else
-"   " colorscheme 256jungle
-"   set background=dark
-"   set nonu
-" endif
-
-set t_Co=256
-
-set encoding=utf8
-try
-    lang en_US
-catch
-endtry
-
-set ffs=unix,dos,mac "Default file types
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Turn backup off, since most stuff is in SVN, git anyway...
+" 不创建备份文件
 set nobackup
-set nowb
+set nowritebackup
 set noswapfile
 
+" 持久化撤销历史
+if has('persistent_undo')
+    set undofile
+    set undodir=~/.vim/undodir
+    if !isdirectory(&undodir)
+        call mkdir(&undodir, 'p', 0700)
+    endif
+endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" set expandtab
+" 搜索设置
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+
+" 界面设置
+set scrolloff=2
+set ttimeoutlen=50
+set updatetime=300
+set signcolumn=yes
+set laststatus=2
+set showmode
+set showcmd
+set wildmenu
+set wildmode=longest:full,full
+
+" 分割窗口
+set splitright
+set splitbelow
+
+" 缩进设置
 set noexpandtab
 set shiftwidth=8
 set tabstop=8
 set smarttab
+set smartindent
+set autoindent
 
-" set lbr
-set tw=500
+" 换行设置
+set textwidth=500
+set whichwrap+=<,>,h,l
+set backspace=indent,eol,start
 
-set ai "Auto indent
-set si "Smart indet
-set wrap "Wrap lines
+" 文件格式
+set fileformats=unix,dos,mac
 
+" 光标设置
+let &t_SI = "\e[6 q"  " Insert mode: 竖线光标
+let &t_EI = "\e[2 q"  " Normal mode: 块状光标
 
-""""""""""""""""""""""""""""""
-" => Visual mode related
-""""""""""""""""""""""""""""""
-" Really useful!
-"  In visual mode when you press * or # to search for the current selection
-vnoremap <silent> * :call VisualSearch('f')<CR>
-vnoremap <silent> # :call VisualSearch('b')<CR>
+" 补全设置
+set completeopt=menu,menuone,noselect
 
-" When you press gv you vimgrep after the selected text
-vnoremap <silent> gv :call VisualSearch('gv')<CR>
-map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
+" 鼠标支持
+set mouse=a
 
-
-function! CmdLine(str)
-    exe "menu Foo.Bar :" . a:str
-    emenu Foo.Bar
-    unmenu Foo
-endfunction
-
-" From an idea by Michael Naumann
-function! VisualSearch(direction) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
-
-    let l:pattern = escape(@", '\\/.*$^~[]')
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-    if a:direction == 'b'
-        execute "normal ?" . l:pattern . "^M"
-    elseif a:direction == 'gv'
-        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
-    elseif a:direction == 'f'
-        execute "normal /" . l:pattern . "^M"
+" 剪贴板
+if has('clipboard')
+    if has('unnamedplus')
+        set clipboard=unnamedplus
+    else
+        set clipboard=unnamed
     endif
+elseif executable('xclip') && exists('##TextYankPost')
+    " Vim 没有 clipboard 支持时，使用 xclip 作为替代
+    " 通过 TextYankPost 自动同步所有 yank 操作到系统剪贴板
+    augroup YankToClipboard
+        autocmd!
+        autocmd TextYankPost * call system('xclip -selection clipboard', join(v:event.regcontents, "\n"))
+    augroup END
 
-    let @/ = l:pattern
-    let @" = l:saved_reg
-endfunction
+    " 从系统剪贴板粘贴
+    function! s:PasteFromClipboard(cmd) abort
+        let @" = system('xclip -selection clipboard -o')
+        execute 'normal! ' . a:cmd
+    endfunction
 
+    nnoremap <silent> p :call <SID>PasteFromClipboard('p')<CR>
+    nnoremap <silent> P :call <SID>PasteFromClipboard('P')<CR>
+endif
 
+" 终端真彩色支持
+if has('termguicolors')
+    set termguicolors
+endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Command mode related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Smart mappings on the command line
-cno $h e ~/
-cno $d e ~/Desktop/
-cno $j e ./
-cno $c e <C-\>eCurrentFileDir("e")<cr>
+" 背景色
+set background=light
 
-" $q is super useful when browsing on the command line
-cno $q <C-\>eDeleteTillSlash()<cr>
+" 隐藏缓冲区
+set hidden
 
-" Bash like keys for the command line
+" 命令行高度
+set cmdheight=1
+
+" 不显示模式（由状态栏显示）
+" set noshowmode
+
+" ----------------------------- 自动命令 --------------------------------------
+augroup vimrc_settings
+    autocmd!
+    " 代码列标记
+    autocmd FileType c,cpp,python,markdown,mkd,asciidoc,go,erlang,lua setlocal colorcolumn=81
+
+    " 窗口大小调整（tmux）
+    if exists('$TMUX')
+        autocmd VimResized * wincmd =
+    endif
+augroup END
+
+" ----------------------------- 快捷键映射 ------------------------------------
+" Buffer 切换
+nnoremap gt :bn<CR>
+nnoremap gT :bp<CR>
+
+" 清除搜索高亮
+map <silent> <leader><cr> :noh<cr>
+
+" 窗口间移动（仅 normal 模式，避免与插入模式补全冲突）
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-h> <C-W>h
+nnoremap <C-l> <C-W>l
+
+" Quickfix 切换
+nnoremap <silent><expr> <leader>q ":".(!empty(getqflist())? "cclose" : "botright copen")."<cr>"
+
+" 插入日期
+inoremap <C-d> <C-R>=strftime("%Y-%m-%d")<CR>
+
+" 命令行快捷键（类似 Bash）
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
-cnoremap <C-K> <C-U>
 cnoremap <C-B> <Left>
 cnoremap <C-F> <right>
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
-" <C-d>: delete char.
 cnoremap <C-d> <Del>
-" <C-k>, K: delete to end.
-cnoremap <C-k> <C-\>e getcmdpos() == 1 ?
-      \ '' : getcmdline()[:getcmdpos()-2]<CR>
+cnoremap <C-k> <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos()-2]<CR>
 
-" Useful on some European keyboards
-"map ? $
-"imap ? $
-"vmap ? $
-"cmap ? $
-
-
-func! Cwd()
-  let cwd = getcwd()
-  return "e " . cwd 
-endfunc
-
-func! DeleteTillSlash()
-  let g:cmd = getcmdline()
-  if MySys() == "linux" || MySys() == "mac"
-    let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
-  else
-    let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
-  endif
-  if g:cmd == g:cmd_edited
-    if MySys() == "linux" || MySys() == "mac"
-      let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
-    else
-      let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
-    endif
-  endif
-  return g:cmd_edited
-endfunc
-
-func! CurrentFileDir(cmd)
-  return a:cmd . " " . expand("%:p:h") . "/"
-endfunc
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Moving around, tabs and buffers
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Map space to / (search) and c-space to ? (backgwards search)
-map <space> /
-map <c-space> ?
-map <silent> <leader><cr> :noh<cr>
-
-" Smart way to move btw. windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
-
-" Close the current buffer
-map <leader>bd :Bclose<cr>
-
-" Close all the buffers
-map <leader>ba :1,300 bd!<cr>
-
-" Use the arrows to something usefull
-map <right> :bn<cr>
-map <left> :bp<cr>
-
-" Tab configuration
-map <leader>tn :tabnew<cr>
-map <leader>te :tabedit
-map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove
-
-" When pressing <leader>cd switch to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>
-
-
-command! Bclose call <SID>BufcloseCloseIt()
-function! <SID>BufcloseCloseIt()
-   let l:currentBufNum = bufnr("%")
-   let l:alternateBufNum = bufnr("#")
-
-   if buflisted(l:alternateBufNum)
-     buffer #
-   else
-     bnext
-   endif
-
-   if bufnr("%") == l:currentBufNum
-     new
-   endif
-
-   if buflisted(l:currentBufNum)
-     execute("bdelete! ".l:currentBufNum)
-   endif
+" 关闭其他 buffer
+function! CloseBufsButCurr()
+    let l:bufnr = bufnr('%')
+    for i in range(1, bufnr('$'))
+        if i != l:bufnr && bufexists(i)
+            try
+                execute 'bdelete ' . i
+            catch
+            endtry
+        endif
+    endfor
 endfunction
+nnoremap <leader>o :call CloseBufsButCurr()<CR>
 
-" Specify the behavior when switching between buffers 
+" 快速编辑和重载配置文件
+nnoremap <leader>ev :edit $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>:echo "vimrc reloaded!"<CR>
+nnoremap <leader>ec :edit ~/.vim/coc-settings.json<CR>
+
+" Buffer 快速导航
+nnoremap [b :bprevious<CR>
+nnoremap ]b :bnext<CR>
+nnoremap [B :bfirst<CR>
+nnoremap ]B :blast<CR>
+
+" 会话管理
+nnoremap <leader>ms :mksession! ~/.vim/session.vim<CR>:echo "Session saved!"<CR>
+nnoremap <leader>mr :source ~/.vim/session.vim<CR>:echo "Session restored!"<CR>
+
+" ----------------------------- 插件管理 (vim-plug) ----------------------------
+" 自动安装 vim-plug
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+
+" ----- 核心插件 -----
+" 主题
+Plug 'sainnhe/gruvbox-material'
+
+" 状态栏
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" 文件浏览器
+Plug 'preservim/nerdtree'
+Plug 'ryanoasis/vim-devicons'
+
+" 模糊搜索
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'tweekmonster/fzf-filemru'  " frecency 排序 (最近+频率)
+
+" Git 集成
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" 文本操作
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-commentary'
+" 注：使用 coc-pairs 代替 auto-pairs（避免冲突）
+
+" 快速移动
+Plug 'easymotion/vim-easymotion'
+
+" 对齐
+Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
+
+" 缩进检测
+Plug 'tpope/vim-sleuth'
+
+" 标签栏
+Plug 'preservim/tagbar', { 'on': 'TagbarToggle' }
+
+" 代码补全和 LSP (coc.nvim)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" 语法高亮增强
+Plug 'sheerun/vim-polyglot'
+
+" 括号彩虹
+Plug 'luochen1990/rainbow'
+
+" 搜索增强
+Plug 'romainl/vim-cool'  " 自动清除搜索高亮
+
+" 高亮光标词
+Plug 'RRethy/vim-illuminate'
+
+" 匹配增强
+Plug 'andymass/vim-matchup'
+
+" 替换操作
+Plug 'svermeulen/vim-subversive'
+
+" Which Key
+Plug 'liuchengxu/vim-which-key'
+
+" 翻译
+Plug 'ianva/vim-youdao-translater'
+
+" GitHub Copilot
+Plug 'github/copilot.vim'
+
+" 终端
+Plug 'voldikss/vim-floaterm'
+
+" 布尔值切换
+Plug 'AndrewRadev/switch.vim'
+
+" PlantUML
+Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
+Plug 'scrooloose/vim-slumlord', { 'for': 'plantuml' }
+
+" Go 支持
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': ['go', 'gomod'] }
+
+call plug#end()
+
+" ----------------------------- 主题配置 --------------------------------------
+let g:gruvbox_material_better_performance = 1
+let g:gruvbox_material_enable_italic = 1
+let g:gruvbox_material_current_word = 'bold'
+let g:gruvbox_material_foreground = 'original'
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_show_eob = 0
+let g:gruvbox_material_dim_inactive_windows = 1
+let g:gruvbox_material_ui_contrast = 'high'
+
+" 加载主题（带错误处理）
 try
-  set switchbuf=usetab
-  set stal=2
-catch
+    colorscheme gruvbox-material
+catch /^Vim\%((\a\+)\)\=:E185/
+    " 主题未安装时使用默认配色
+    colorscheme default
+    echohl WarningMsg
+    echo "gruvbox-material not found, using default colorscheme. Run :PlugInstall to install."
+    echohl None
 endtry
 
-
-""""""""""""""""""""""""""""""
-" => Statusline
-""""""""""""""""""""""""""""""
-" Always show the statusline
-set laststatus=2
-
-" Format the statusline
-set statusline=\ %f%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ \ Line:\ %l/%L:%c
-
-function! CurDir()
-    let curdir = substitute(getcwd(), $HOME, "~", "g")
-    return curdir
-endfunction
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Parenthesis/bracket expanding
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-vnoremap $1 <esc>`>a)<esc>`<i(<esc>
-vnoremap $2 <esc>`>a]<esc>`<i[<esc>
-vnoremap $3 <esc>`>a}<esc>`<i{<esc>
-vnoremap $$ <esc>`>a"<esc>`<i"<esc>
-vnoremap $q <esc>`>a'<esc>`<i'<esc>
-vnoremap $e <esc>`>a"<esc>`<i"<esc>
-
-" Map auto complete of (, ", ', [
-inoremap $1 ()<esc>i
-inoremap $2 []<esc>i
-inoremap $3 {}<esc>i
-inoremap $4 {<esc>o}<esc>O
-inoremap $q ''<esc>i
-inoremap $e ""<esc>i
-inoremap $t <><esc>i
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Editing mappings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Remap VIM 0
-"map 0 ^
-
-if MySys() == "mac"
-  nmap <D-j> <M-j>
-  nmap <D-k> <M-k>
-  vmap <D-j> <M-j>
-  vmap <D-k> <M-k>
-endif
-
-"Delete trailing white space
-func! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
-endfunc
-autocmd BufWrite *.py,*.c,*.cpp,*.h,*.go,*.erl,*.hrl,*.js,*.wsgi :call DeleteTrailingWS()
-
-set guitablabel=%t
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Cope
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Do :help cope if you are unsure what cope is. It's super useful!
-map <leader>cc :botright cope<cr>
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
-
-
-""""""""""""""""""""""""""""""
-" => bufExplorer plugin
-""""""""""""""""""""""""""""""
-let g:bufExplorerDefaultHelp=0
-let g:bufExplorerShowRelativePath=1
-map <leader>o :BufExplorer<cr>
-
-
-""""""""""""""""""""""""""""""
-" => Minibuffer plugin
-""""""""""""""""""""""""""""""
-let g:miniBufExplModSelTarget = 1
-let g:miniBufExplorerMoreThanOne = 2
-let g:miniBufExplModSelTarget = 0
-let g:miniBufExplUseSingleClick = 1
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplVSplit = 25
-let g:miniBufExplSplitBelow=1
-
-let g:bufExplorerSortBy = "name"
-
-autocmd BufRead,BufNew :call UMiniBufExplorer
-
-map <leader>u :TMiniBufExplorer<cr>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Omni complete functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Spell checking
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Pressing ,ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell!<cr>
-
-"Shortcuts using <leader>
-map <leader>sn ]s
-map <leader>sp [s
-map <leader>sa zg
-map <leader>s? z=
-
-""""""""""""""""""""""""""""""
-" => Go section
-""""""""""""""""""""""""""""""
-au FileType go inoremap <C-b> <C-x><C-o>
-
-""""""""""""""""""""""""""""""
-" => Python section
-""""""""""""""""""""""""""""""
-let python_highlight_all = 1
-au FileType python syn keyword pythonDecorator True None False self
-
-au BufNewFile,BufRead *.jinja set syntax=htmljinja
-au BufNewFile,BufRead *.mako set ft=mako
-au BufNewFile,BufRead *.wsgi set ft=python
-
-au FileType python inoremap <buffer> $r return
-au FileType python inoremap <buffer> $i import
-au FileType python inoremap <buffer> $p print
-au FileType python inoremap <buffer> $f #--- PH ----------------------------------------------<esc>FP2xi
-au FileType python map <buffer> <leader>1 /class
-au FileType python map <buffer> <leader>2 /def
-au FileType python map <buffer> <leader>C ?class
-au FileType python map <buffer> <leader>D ?def
-
-" python 缩进 changed by hmg
-au FileType python setlocal et sta sw=4 sts=4
-
-""""""""""""""""""""""""""""""
-" => JavaScript section
-"""""""""""""""""""""""""""""""
-au FileType javascript call JavaScriptFold()
-au FileType javascript setl fen
-au FileType javascript setl nocindent
-
-au FileType javascript imap <c-t> AJS.log();<esc>hi
-au FileType javascript imap <c-a> alert();<esc>hi
-
-au FileType javascript inoremap <buffer> $r return
-au FileType javascript inoremap <buffer> $f //--- PH ----------------------------------------------<esc>FP2xi
-
-function! JavaScriptFold()
-    setl foldmethod=syntax
-    setl foldlevelstart=1
-    syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
-
-    function! FoldText()
-    return substitute(getline(v:foldstart), '{.*', '{...}', '')
-    endfunction
-    setl foldtext=FoldText()
-endfunction
-
-" JavaScript 缩进 changed by hmg
-au FileType javascript setlocal et sta sw=4 sts=4
-
-" ----------------------------------------------------------------------------
-" tern_for_vim
-" ----------------------------------------------------------------------------
-let tern_show_signature_in_pum = 1
-let tern_show_argument_hints = 'on_hold'
-autocmd FileType javascript nnoremap <leader>d :TernDef<CR>
-autocmd FileType javascript setlocal omnifunc=tern#Complete
-
-" Erlang 缩进 changed by hmg
-au FileType erlang setlocal et sta sw=4 sts=4
-
-""""""""""""""""""""""""""""""
-" => MRU plugin
-""""""""""""""""""""""""""""""
-let MRU_Max_Entries = 400
-map <leader>f :MRU<CR>
-
-
-""""""""""""""""""""""""""""""
-" => Command-T
-""""""""""""""""""""""""""""""
-let g:CommandTMaxHeight = 15
-set wildignore+=*.o,*.obj,.git,*.pyc
-noremap <leader>j :CommandT<cr>
-noremap <leader>y :CommandTFlush<cr>
-
-
-""""""""""""""""""""""""""""""
-" => Vim grep
-""""""""""""""""""""""""""""""
-let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'
-set grepprg=/bin/grep\ -nH
-
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => MISC
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Remove the Windows ^M - when the encodings gets messed up
-noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
-
-"Quickly open a buffer for scripbble
-map <leader>q :e ~/buffer<cr>
-au BufRead,BufNewFile ~/buffer iab <buffer> xh1 ===========================================
-
-map <leader>pp :setlocal paste!<cr>
-
-map <leader>bb :cd ..<cr>
-
-set nu
-set rnu
-:hi linenr ctermfg=lightcyan
-hi Identifier ctermfg=blue cterm=none
-set autoindent
-set cindent
-set smartindent
-set tabstop=8
-set shiftwidth=8
-
-:inoremap ( ()<ESC>i
-:inoremap ) <c-r>=ClosePair(')')<CR>
-" :inoremap { {<CR>}<Up><ESC>A
-" :inoremap } <c-r>=ClosePair('}')<CR>
-:inoremap [ []<ESC>i
-:inoremap ] <c-r>=ClosePair(']')<CR>
-":inoremap " ""<ESC>i
- 
-function! ClosePair(char)
-    if getline('.')[col('.') - 1] == a:char
-        return "\<Right>"
-    else
-        return a:char
-    endif
-endf
-
-" colorscheme 256jungle
-colorscheme hmgle
-
-
-" 解决从windows拷贝过来的GBK格式乱码
-set fileencodings=utf-8,gbk,ucs-bom,cp936,gb18030
-
-
-set mouse=a
-set mousehide
-":syntax enable
-:set previewheight=12
-:run macros/gdb_mappings.vim
-":set asm=0
-":set gdbprg=/usr/bin/gdb
-:map <F8> :bel 30vsplit gdb-variables<cr>
-:map <F9> :close<Esc>
-map <c-w><c-f> :FirstExplorerWindow<cr>
-map <c-w><c-b> :BottomExplorerWindow<cr>
-map <c-w><c-t> :WMToggle<cr>
-let g:winManagerWindowLayout='FileExplorer|TagList'
-:map <F6> :WMToggle<cr>
-
-" set maxmempattern=2500
-
-" 将插入模式aa映射为<esc>
-" imap aa <esc>
-" :nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
-:nnoremap <silent><C-n> <C-w><C-]><C-w>T
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" CSCOPE settings for vim           
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"
-" This file contains some boilerplate settings for vim's cscope interface,
-" plus some keyboard mappings that I've found useful.
-"
-" USAGE: 
-" -- vim 6:     Stick this file in your ~/.vim/plugin directory (or in a
-"               'plugin' directory in some other directory that is in your
-"               'runtimepath'.
-"
-" -- vim 5:     Stick this file somewhere and 'source cscope.vim' it from
-"               your ~/.vimrc file (or cut and paste it into your .vimrc).
-"
-" NOTE: 
-" These key maps use multiple keystrokes (2 or 3 keys).  If you find that vim
-" keeps timing you out before you can complete them, try changing your timeout
-" settings, as explained below.
-"
-" Happy cscoping,
-"
-" Jason Duell       jduell@alumni.princeton.edu     2002/3/7
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" This tests to see if vim was configured with the '--enable-cscope' option
-" when it was compiled.  If it wasn't, time to recompile vim... 
-if has("cscope")
-    " set cscopequickfix by hmg 这样会立即跳转到第一个找到的符号，要跳转到别处， 输入 cw 后选择
-    :set cscopequickfix=s-,c-,d-,i-,t-,e-
-
-    """"""""""""" Standard cscope/vim boilerplate
-
-    " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
-    set cscopetag
-
-    " check cscope for definition of a symbol before checking ctags: set to 1
-    " if you want the reverse search order.
-    set csto=0
-
-    " add any cscope database in current directory
-    if filereadable("cscope.out")
-        cs add cscope.out  
-    " else add the database pointed to by environment variable 
-    elseif $CSCOPE_DB != ""
-        cs add $CSCOPE_DB
-    endif
-
-    " show msg when any other cscope db added
-    set cscopeverbose  
-
-
-    """"""""""""" My cscope/vim key mappings
-    "
-    " The following maps all invoke one of the following cscope search types:
-    "
-    "   's'   symbol: find all references to the token under cursor
-    "   'g'   global: find global definition(s) of the token under cursor
-    "   'c'   calls:  find all calls to the function name under cursor
-    "   't'   text:   find all instances of the text under cursor
-    "   'e'   egrep:  egrep search for the word under cursor
-    "   'f'   file:   open the filename under cursor
-    "   'i'   includes: find files that include the filename under cursor
-    "   'd'   called: find functions that function under cursor calls
-    "
-    " Below are three sets of the maps: one set that just jumps to your
-    " search result, one that splits the existing vim window horizontally and
-    " diplays your search result in the new window, and one that does the same
-    " thing, but does a vertical split instead (vim 6 only).
-    "
-    " I've used CTRL-\ and CTRL-@ as the starting keys for these maps, as it's
-    " unlikely that you need their default mappings (CTRL-\'s default use is
-    " as part of CTRL-\ CTRL-N typemap, which basically just does the same
-    " thing as hitting 'escape': CTRL-@ doesn't seem to have any default use).
-    " If you don't like using 'CTRL-@' or CTRL-\, , you can change some or all
-    " of these maps to use other keys.  One likely candidate is 'CTRL-_'
-    " (which also maps to CTRL-/, which is easier to type).  By default it is
-    " used to switch between Hebrew and English keyboard mode.
-    "
-    " All of the maps involving the <cfile> macro use '^<cfile>$': this is so
-    " that searches over '#include <time.h>" return only references to
-    " 'time.h', and not 'sys/time.h', etc. (by default cscope will return all
-    " files that contain 'time.h' as part of their name).
-
-
-    " To do the first type of search, hit 'CTRL-\', followed by one of the
-    " cscope search types above (s,g,c,t,e,f,i,d).  The result of your cscope
-    " search will be displayed in the current window.  You can use CTRL-T to
-    " go back to where you were before the search.  
-    "
-
-    nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>	
-    nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>	
-
-
-    " Using 'CTRL-spacebar' (intepreted as CTRL-@ by vim) then a search type
-    " makes the vim window split horizontally, with search result displayed in
-    " the new window.
-    "
-    " (Note: earlier versions of vim may not have the :scs command, but it
-    " can be simulated roughly via:
-    "    nmap <C-@>s <C-W><C-S> :cs find s <C-R>=expand("<cword>")<CR><CR>	
-
-    nmap <C-@>s :scs find s <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>c :scs find c <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>t :scs find t <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>e :scs find e <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>f :scs find f <C-R>=expand("<cfile>")<CR><CR>	
-    nmap <C-@>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>	
-    nmap <C-@>d :scs find d <C-R>=expand("<cword>")<CR><CR>	
-
-    " Hitting CTRL-space *twice* before the search type does a vertical 
-    " split instead of a horizontal one (vim 6 and up only)
-    "
-    " (Note: you may wish to put a 'set splitright' in your .vimrc
-    " if you prefer the new window on the right instead of the left
-
-    nmap <C-@><C-@>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>	
-    nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>	
-    nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
-
-    function! NewtabCS(cscmd)
-    	let s:cskeyword=expand("<cword>")
-    	:tabe
-	let s:newpagnr=tabpagenr()
-	try
-		exe "cs find " . a:cscmd s:cskeyword
-	catch
-		exe "tabc" . s:newpagnr
-		echoe "find null!^_^"
-		return
-	endtry
-	let s:prepagnr=tabpagenr()
-	if s:newpagnr != s:prepagnr
-		exe "tabc" . s:newpagnr
-	endif
-    endfunction
-    
-    nmap <C-i>s :call NewtabCS('s')<cr>
-    nmap <C-i>g :call NewtabCS('g')<cr>
-    nmap <C-i>c :call NewtabCS('c')<cr>
-    nmap <C-i>t :call NewtabCS('t')<cr>
-    nmap <C-i>e :call NewtabCS('e')<cr>
-    nmap <C-i>f :call NewtabCS('f')<cr>
-    nmap <C-i>i :call NewtabCS('i')<cr>
-    nmap <C-i>d :call NewtabCS('d')<cr>
-
-    """"""""""""" key map timeouts
-    "
-    " By default Vim will only wait 1 second for each keystroke in a mapping.
-    " You may find that too short with the above typemaps.  If so, you should
-    " either turn off mapping timeouts via 'notimeout'.
-    "
-    "set notimeout 
-    "
-    " Or, you can keep timeouts, by uncommenting the timeoutlen line below,
-    " with your own personal favorite value (in milliseconds):
-    "
-    "set timeoutlen=4000
-    "
-    " Either way, since mapping timeout settings by default also set the
-    " timeouts for multicharacter 'keys codes' (like <F1>), you should also
-    " set ttimeout and ttimeoutlen: otherwise, you will experience strange
-    " delays as vim waits for a keystroke after you hit ESC (it will be
-    " waiting to see if the ESC is actually part of a key code like <F1>).
-    "
-    "set ttimeout 
-    "
-    " personally, I find a tenth of a second to work well for key code
-    " timeouts. If you experience problems and have a slow terminal or network
-    " connection, set it higher.  If you don't set ttimeoutlen, the value for
-    " timeoutlent (default: 1000 = 1 second, which is sluggish) is used.
-    "
-    "set ttimeoutlen=100
-    set timeoutlen=800
-    set ttimeoutlen=200
-endif
-
-" 关闭标签后跳至左边标签
-let s:prevtabnum=tabpagenr('$')
-let s:prevtabid=tabpagenr()
-augroup TabClosed
-    autocmd! TabEnter * :if tabpagenr('$')<s:prevtabnum && tabpagenr()>1 && s:prevtabid != tabpagenr('$')+1
-                \       |   tabprevious
-                \       |endif
-                \       |let s:prevtabnum=tabpagenr('$')
-    		\	|let s:prevtabid=tabpagenr()
+" ----------------------------- Airline 配置 ----------------------------------
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline_theme = 'gruvbox_material'
+let g:airline_powerline_fonts = 1
+
+" Buffer 索引快捷键 (Alt+数字)
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+nmap <A-1> <Plug>AirlineSelectTab1
+nmap <A-2> <Plug>AirlineSelectTab2
+nmap <A-3> <Plug>AirlineSelectTab3
+nmap <A-4> <Plug>AirlineSelectTab4
+nmap <A-5> <Plug>AirlineSelectTab5
+nmap <A-6> <Plug>AirlineSelectTab6
+nmap <A-7> <Plug>AirlineSelectTab7
+nmap <A-8> <Plug>AirlineSelectTab8
+nmap <A-9> <Plug>AirlineSelectTab9
+
+" ----------------------------- NERDTree 配置 ---------------------------------
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeIgnore = ['^\.git$', '^node_modules$']
+nnoremap <leader>tt :NERDTreeToggle<CR>
+nnoremap <leader>tf :NERDTreeFind<CR>
+
+" 自动关闭（最后一个窗口时）
+augroup NERDTreeConfig
+    autocmd!
+    autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 augroup END
 
-au FileType c,cpp inoremap /* /*  */<ESC>hhi
-au FileType c,cpp,python,markdown,mkd,asciidoc,go,erlang,lua set colorcolumn=81
-augroup pandoc_syntax
-	au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+" ----------------------------- FZF 配置 --------------------------------------
+let g:fzf_layout = { 'down': '~40%' }
+let g:fzf_preview_window = ['right:50%', 'ctrl-/']
+
+" fzf-filemru 配置 (frecency 排序)
+let g:fzf_filemru_bufwrite = 1        " 保存文件时更新 MRU
+let g:fzf_filemru_git_ls = 1          " 使用 git ls-files (更快)
+let g:fzf_filemru_ignore_submodule = 1
+
+" 快捷键映射 (与 Neovim telescope 类似)
+nnoremap <leader>ff :Files<CR>
+nnoremap <leader>fg :Rg<CR>
+nnoremap <leader>fl :Lines<CR>
+nnoremap <leader>fb :BLines<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>fh :Helptags<CR>
+nnoremap <leader>* :Rg <C-R><C-W><CR>
+nnoremap <leader>fr :History<CR>
+" Ctrl+P 使用 ProjectMru - 最近文件排在前面 (类似 snacks.picker.smart)
+nnoremap <C-p> :ProjectMru --tiebreak=index<CR>
+nnoremap <leader>fz :FilesMru<CR>
+
+" FZF 窗口内快捷键
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-]': 'vsplit' }
+
+" ----------------------------- CoC 配置 --------------------------------------
+" 扩展列表
+let g:coc_global_extensions = [
+  \ 'coc-json',
+  \ 'coc-tsserver',
+  \ 'coc-go',
+  \ 'coc-pyright',
+  \ 'coc-rust-analyzer',
+  \ 'coc-lua',
+  \ 'coc-snippets',
+  \ 'coc-pairs',
+  \ ]
+
+" Tab 补全
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Enter 确认补全
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Ctrl+j/k 在补全菜单中移动
+inoremap <silent><expr> <C-j> coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"
+inoremap <silent><expr> <C-k> coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"
+
+" 触发补全
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" 跳转定义
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" 显示文档
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" 重命名
+nmap <leader>rn <Plug>(coc-rename)
+
+" 格式化
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+" 代码动作
+nmap <leader>ca  <Plug>(coc-codeaction-cursor)
+xmap <leader>ca  <Plug>(coc-codeaction-selected)
+
+" 快速修复
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" 诊断跳转
+nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> ]d <Plug>(coc-diagnostic-next)
+
+" 显示诊断列表
+nnoremap <leader>fd :<C-u>CocList diagnostics<CR>
+
+" 显示符号
+nnoremap <leader>ss :<C-u>CocList outline<CR>
+nnoremap <leader>sS :<C-u>CocList -I symbols<CR>
+
+" ----------------------------- EasyMotion 配置 -------------------------------
+" 类似 flash.nvim 的快速跳转（双字符跳转）
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_do_mapping = 0
+nmap s <Plug>(easymotion-overwin-f2)
+xmap s <Plug>(easymotion-overwin-f2)
+omap s <Plug>(easymotion-overwin-f2)
+
+" ----------------------------- Tagbar 配置 -----------------------------------
+let g:tagbar_silent = 1
+nnoremap <C-w><C-e> :TagbarToggle<CR>
+
+" Zig 支持
+let g:tagbar_type_zig = {
+    \ 'ctagstype': 'zig',
+    \ 'kinds': [
+        \ 'f:functions',
+        \ 's:structs',
+        \ 'e:enums',
+        \ 'u:unions',
+        \ 'E:errors',
+    \ ],
+\ }
+
+" ----------------------------- Rainbow 配置 ----------------------------------
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+\   'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+\   'separately': {
+\       '*': {},
+\       'markdown': 0,
+\       'html': 0,
+\   }
+\}
+
+" ----------------------------- CoC Document Highlight 配置 --------------------
+" 启用光标停留时自动高亮引用
+augroup CocDocumentHighlight
+    autocmd!
+    if exists('*CocActionAsync')
+        autocmd CursorHold * silent call CocActionAsync('highlight')
+    endif
 augroup END
 
-" 分界线颜色
-hi colorcolumn ctermbg=240 ctermfg=256
+" 使用 CoC 的 LSP 引用导航（匹配 Neovim illuminate 和 vim-lsp 行为）
+nmap <silent> <leader>n :CocCommand document.jumpToNextSymbol<CR>
+nmap <silent> <leader>N :CocCommand document.jumpToPrevSymbol<CR>
 
-" 同级缩进块跳转
-function! JumpUp()
-	let CurrIndent = indent('.')
-	let CurrLineNo = line('.')
-	if CurrLineNo == 1
-		return
-	endif
-	let UpLine = CurrLineNo - 1
-	let UpIndent = indent(UpLine)
-	if UpIndent > CurrIndent
-		" 块的底部, 以上一行作为参考信息
-		let CurrIndent = UpIndent
-		let UpLine -= 1
-		if UpLine > 0
-			let UpIndent = indent(UpLine)
-		else
-			exe "normal gg"
-			return
-		endif
-	endif
-	" 块的中部
-	while UpLine > 1
-		if UpIndent < CurrIndent && strlen(getline(UpLine)) > 0
-			exe "normal " . UpLine . "gg"
-			return
-		endif
-		let UpLine = UpLine - 1
-		let UpIndent = indent(UpLine)
-	endwhile
-	exe "normal gg"
+" ----------------------------- vim-illuminate 配置 ---------------------------
+let g:Illuminate_delay = 200
+" 注意：vim-illuminate 提供额外的单词高亮，CoC 提供基于 LSP 的符号高亮
+
+" ----------------------------- vim-subversive 配置 ---------------------------
+" 类似 substitute.nvim
+nmap <leader>r <plug>(SubversiveSubstitute)
+nmap <leader>rs <plug>(SubversiveSubstituteLine)
+nmap <leader>rS <plug>(SubversiveSubstituteToEndOfLine)
+xmap <leader>r <plug>(SubversiveSubstitute)
+
+" ----------------------------- Commentary 配置 -------------------------------
+" 类似 Comment.nvim
+nmap <leader>cc gcc
+vmap <leader>cc gc
+nmap <leader>cb gbc
+
+" ----------------------------- Which Key 配置 --------------------------------
+nnoremap <silent> <leader> :WhichKey ','<CR>
+set timeoutlen=300
+
+" ----------------------------- 翻译配置 --------------------------------------
+vnoremap <leader>ee :<C-u>Ydv<CR>
+nnoremap <leader>ee :<C-u>Ydc<CR>
+nnoremap <leader>yd :<C-u>Yde<CR>
+
+" ----------------------------- Floaterm 配置 ---------------------------------
+" 类似 toggleterm.nvim
+let g:floaterm_keymap_toggle = '<C-s>'
+let g:floaterm_width = 0.8
+let g:floaterm_height = 0.8
+
+" ----------------------------- Switch 配置 -----------------------------------
+" 类似 boole.nvim
+let g:switch_mapping = ""
+let g:switch_custom_definitions =
+    \ [
+    \   ['true', 'false'],
+    \   ['True', 'False'],
+    \   ['TRUE', 'FALSE'],
+    \   ['yes', 'no'],
+    \   ['on', 'off'],
+    \   ['enable', 'disable'],
+    \   ['enabled', 'disabled'],
+    \ ]
+
+" ----------------------------- vim-matchup 配置 ------------------------------
+let g:matchup_matchparen_offscreen = {'method': 'popup'}
+highlight OffscreenPopup guibg=#FF0000 guifg=blue
+
+" ----------------------------- vim-go 配置 -----------------------------------
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = "goimports"
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+" 禁用 vim-go 的 LSP 功能，使用 coc.nvim
+let g:go_def_mapping_enabled = 0
+let g:go_code_completion_enabled = 0
+let g:go_gopls_enabled = 0
+
+" ----------------------------- 输入法切换 ------------------------------------
+" 离开插入模式时切换到英文输入法
+augroup InputMethodSwitch
+    autocmd!
+    if executable('fcitx5-remote')
+        autocmd InsertLeave * silent! call system('fcitx5-remote -c')
+    elseif executable('fcitx-remote')
+        autocmd InsertLeave * silent! call system('fcitx-remote -c')
+    endif
+augroup END
+
+" ----------------------------- 其他设置 --------------------------------------
+" 自动保存视图（仅对普通文件，排除特殊缓冲区）
+augroup remember_folds
+    autocmd!
+    autocmd BufWinLeave ?*
+        \ if &buftype == '' && &filetype != '' && expand('%') !~ '\[.*\]' |
+        \   silent! mkview |
+        \ endif
+    autocmd BufWinEnter ?*
+        \ if &buftype == '' && &filetype != '' && expand('%') !~ '\[.*\]' |
+        \   silent! loadview |
+        \ endif
+augroup END
+
+" 大文件优化
+function! s:HandleLargeFile(file)
+    if getfsize(a:file) > 2097152  " 2MB
+        setlocal noswapfile
+        setlocal bufhidden=unload
+        setlocal undolevels=-1
+        setlocal foldmethod=manual
+        setlocal nofoldenable
+        " 禁用语法高亮以提升性能（避免全局关闭 syntax）
+        silent! syntax clear
+        unlet! b:current_syntax
+    endif
 endfunction
 
-function! JumpDown()
-	let CurrIndent = indent('.')
-	let CurrLineNo = line('.')
-	if CurrLineNo == line('$')
-		return
-	endif
+augroup LargeFile
+    autocmd!
+    autocmd BufReadPre * call s:HandleLargeFile(expand("<afile>"))
+augroup END
 
-	let DownLine = CurrLineNo
-	" 确保以参考的下一行不为空行
-	while DownLine < line('$')
-		let DownLine = DownLine + 1
-		let DownIndent = indent(DownLine)
-		if strlen(getline(DownLine)) > 0
-			break
-		endif
-	endwhile
-	
-	if DownIndent > CurrIndent
-		" 块的顶部, 以下一行作为参考信息
-		let CurrIndent = DownIndent
-		let DownLine += 1
-		if DownLine <= line('$')
-			let DownIndent = indent(DownLine)
-		else
-			exe "normal G"
-			return
-		endif
-	endif
-	" 块的中部
-	while DownLine < line('$')
-		if DownIndent < CurrIndent && strlen(getline(DownLine)) > 0
-			let TmpLine = DownLine - 1
-			exe "normal " . TmpLine . "G"
-			return
-		endif
-		let DownLine = DownLine + 1
-		let DownIndent = indent(DownLine)
-	endwhile
-	exe "normal G"
-endfunction
+" ----------------------------- 插件性能优化 -----------------------------------
+" vim-gitgutter 性能优化
+let g:gitgutter_max_signs = 500
+let g:gitgutter_map_keys = 0
+let g:gitgutter_sign_priority = 10
 
-map vu :call JumpUp()<cr>
-map vd :call JumpDown()<cr>
+" NERDTree 优化
+let g:NERDTreeMinimalMenu = 1
 
-" C_HELP_man
-let s:C_DocBufferName       = "C_HELP_man"
-let s:C_DocHelpBufferNumber = -1
-let s:C_Man                 = 'man'      " the manual program
-function! MyC_Help( type )
-	let cuc		= getline(".")[col(".") - 1]		" character under the cursor
-	let	item	= expand("<cword>")							" word under the cursor
-	if cuc == '' || item == "" || match( item, cuc ) == -1
-		let	item=C_Input('name of the manual page : ', '' )
-	endif
-
-	if item == ""
-		return
-	endif
-	"------------------------------------------------------------------------------
-	"  replace buffer content with bash help text
-	"------------------------------------------------------------------------------
-	"
-	" jump to an already open bash help window or create one
-	"
-	if bufloaded(s:C_DocBufferName) != 0 && bufwinnr(s:C_DocHelpBufferNumber) != -1
-		exe bufwinnr(s:C_DocHelpBufferNumber) . "wincmd w"
-		" buffer number may have changed, e.g. after a 'save as'
-		if bufnr("%") != s:C_DocHelpBufferNumber
-			let s:C_DocHelpBufferNumber=bufnr(s:C_OutputBufferName)
-			exe ":bn ".s:C_DocHelpBufferNumber
-		endif
-	else
-		exe ":new ".s:C_DocBufferName
-		let s:C_DocHelpBufferNumber=bufnr("%")
-		setlocal buftype=nofile
-		setlocal noswapfile
-		setlocal bufhidden=delete
-		setlocal filetype=sh		" allows repeated use of <S-F1>
-		setlocal syntax=OFF
-	endif
-	setlocal	modifiable
-	"
-	if a:type == 'm' 
-		"
-		" Is there more than one manual ?
-		"
-		let manpages	= system( s:C_Man.' -k '.item )
-		if v:shell_error
-			echomsg	"Shell command '".s:C_Man." -k ".item."' failed."
-			:close
-			return
-		endif
-		let	catalogs	= split( manpages, '\n', )
-		let	manual		= {}
-		"
-		" Select manuals where the name exactly matches
-		"
-		for line in catalogs
-			if line =~ '^'.item.'\s\+(' 
-				let	itempart	= split( line, '\s\+' )
-				let	catalog		= itempart[1][1:-2]
-				if match( catalog, '.p$' ) == -1
-					let	manual[catalog]	= catalog
-				endif
-			endif
-		endfor
-		"
-		" Build a selection list if there are more than one manual
-		"
-		let	catalog	= ""
-		if len(keys(manual)) > 1
-			for key in keys(manual)
-				echo ' '.item.'  '.key
-			endfor
-			let defaultcatalog	= ''
-			if has_key( manual, '3' )
-				let defaultcatalog	= '3'
-			else
-				if has_key( manual, '2' )
-					let defaultcatalog	= '2'
-				endif
-			endif
-			let	catalog	= input( 'select manual section (<Enter> cancels) : ', defaultcatalog )
-			if ! has_key( manual, catalog )
-				:close
-				:redraw
-				echomsg	"no appropriate manual section '".catalog."'"
-				return
-			endif
-		endif
-
-		set filetype=man
-		silent exe ":%!".s:C_Man." ".catalog." ".item
-
-	endif
-
-	setlocal nomodifiable
-endfunction		" ---------- end of function  C_Help  ----------
-
-au FileType c,cpp map <Leader>h :call MyC_Help("m")<CR>
-au FileType c,cpp map vh :call MyC_Help("m")<CR>
-au FileType go nmap <Leader>h <Plug>(go-doc)
-au FileType go nmap vh <Plug>(go-doc)
-" au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-" au FileType go nnoremap <silent> <C-i> :<C-u>GoDefByGuru<cr>
-au FileType go nmap <Leader>gd :<C-u>GoDefByGuru<cr>
-
-" 增加搜索项
-function! AddSearchStr(str)
-	if strlen(@/) > 0
-		let searchstrs = split(@/, '\\|')
-		let l:searchstrcnt = count(searchstrs, a:str)
-		if l:searchstrcnt > 0
-			return
-		endif
-		let @/ = @/ . "\\|" . a:str
-	else
-		let @/ = a:str
-	endif
-endfunction
-
-" 删减搜索项
-function! DelSearchStr(str)
-	let searchstrs = split(@/, '\\|')
-	let l:searchstrcnt = count(searchstrs, a:str)
-	if l:searchstrcnt == 0
-		return
-	endif
-	let l:searchall = ""
-	for searchstr in searchstrs
-		if a:str != searchstr
-			let l:searchall = l:searchall . searchstr . '\|'
-		endif
-	endfor
-	let @/ = l:searchall[0:-3]
-endfunction
-
-map <leader>a :call AddSearchStr(expand("<cword>"))<CR>
-vmap <leader>a :call AddSearchStr(@*)<CR>
-map <leader>d :call DelSearchStr(expand("<cword>"))<CR>
-vmap <leader>d :call DelSearchStr(@*)<CR>
-
-" gocode 补全快捷键
-imap <leader>xo <C-x><C-o>
-
-" 自动补全时的预览菜单, 不显示预览窗口
-set completeopt=longest,menu
-
-" 插入时间
-nnoremap <C-d> "=strftime("%Y-%m-%d")<CR>P
-inoremap <C-d> <C-R>=strftime("%Y-%m-%d")<CR>
-
-" Move to next/previous line with same indentation
-nnoremap <silent> [u :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%<' . line('.') . 'l\S', 'be')<CR>
-nnoremap <silent> ]u :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%<' . line('.') . 'l\S', 'be')<CR>
-nnoremap <silent> [d :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%>' . line('.') . 'l\S', 'e')<CR>
-nnoremap <silent> ]d :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%>' . line('.') . 'l\S', 'e')<CR>
-
-" For vim-easy-align
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-
-" Allow saving of files as sudo when I forgot to start vim using sudo.
-cmap w!! w !sudo tee > /dev/null %
-
-map <leader>tt :NERDTreeTabsToggle<CR>
-
-" rust
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
+" Copilot 优化（避免与 Tab 补全冲突）
+let g:copilot_no_tab_map = v:true
+let g:copilot_assume_mapped = v:true
+" 使用 Alt+Enter 接受建议
+if exists('*copilot#Accept')
+    imap <silent><script><expr> <M-CR> copilot#Accept("\<CR>")
+endif

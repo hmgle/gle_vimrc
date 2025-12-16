@@ -1,0 +1,68 @@
+{
+  "suggest.noselect": true,
+  "suggest.enablePreselect": false,
+  "suggest.triggerAfterInsertEnter": true,
+  "suggest.completionItemKindLabels": {
+    "text": "",
+    "method": "",
+    "function": "",
+    "constructor": "",
+    "field": "",
+    "variable": "",
+    "class": "",
+    "interface": "",
+    "module": "",
+    "property": "",
+    "unit": "",
+    "value": "",
+    "enum": "",
+    "keyword": "",
+    "snippet": "",
+    "color": "",
+    "file": "",
+    "reference": "",
+    "folder": "",
+    "enumMember": "",
+    "constant": "",
+    "struct": "",
+    "event": "",
+    "operator": "",
+    "typeParameter": ""
+  },
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextCurrentLineOnly": false,
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.signPriority": 100,
+  "inlayHint.enable": false,
+  "signature.enable": true,
+  "signature.target": "float",
+  "hover.target": "float",
+  "coc.preferences.formatOnSaveFiletypes": [
+    "go",
+    "rust",
+    "json",
+    "javascript",
+    "typescript"
+  ],
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".git/"],
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "usePlaceholders": true
+      }
+    },
+    "lua": {
+      "command": "lua-language-server",
+      "filetypes": ["lua"],
+      "rootPatterns": [".git/"]
+    }
+  },
+  "go.goplsOptions": {
+    "completeUnimported": true
+  },
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "rust-analyzer.inlayHints.enable": false
+}
