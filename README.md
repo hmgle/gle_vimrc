@@ -1,6 +1,6 @@
 # Vim 配置说明文档
 
-本配置基于 [vNeovim 配置](https://github.com/hmgle/nvim.git)转换而来，尽可能保持相同的快捷键和功能体验。
+本配置基于 [Neovim 配置](https://github.com/hmgle/nvim.git)转换而来，尽可能保持相同的快捷键和功能体验。
 
 ## 目录
 
