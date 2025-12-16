@@ -17,7 +17,6 @@
   - [快速移动 (EasyMotion)](#快速移动-easymotion)
   - [代码注释 (Commentary)](#代码注释-commentary)
   - [文本操作 (Surround)](#文本操作-surround)
-  - [复制粘贴 (Yoink)](#复制粘贴-yoink)
   - [替换操作 (Subversive)](#替换操作-subversive)
   - [Git 操作](#git-操作)
   - [终端 (Floaterm)](#终端-floaterm)
@@ -56,7 +55,7 @@ brew install vim node fzf ripgrep ctags
 
 3. **安装 CoC 扩展** (在 Vim 中执行)
    ```vim
-   :CocInstall coc-json coc-tsserver coc-go coc-pyright coc-lua coc-snippets
+   :CocInstall coc-json coc-tsserver coc-go coc-pyright coc-lua coc-snippets coc-pairs
    ```
 
 4. **配置 Copilot** (可选)
@@ -77,6 +76,7 @@ brew install vim node fzf ripgrep ctags
 | 主题 | gruvbox-material | 浅色主题 |
 | 鼠标 | 启用 | 支持鼠标操作 |
 | 剪贴板 | 系统剪贴板 | 与系统共享 |
+| Undo | 持久化 | 退出后保留撤销历史 |
 
 ---
 
@@ -99,12 +99,11 @@ brew install vim node fzf ripgrep ctags
 | rainbow | 括号彩虹 | rainbow-delimiters |
 | vim-illuminate | 高亮光标词 | 相同 |
 | vim-matchup | 匹配增强 | 相同 |
-| vim-yoink | 复制历史 | yanky.nvim |
 | vim-subversive | 替换操作 | substitute.nvim |
 | vim-which-key | 快捷键提示 | which-key.nvim |
 | vim-floaterm | 浮动终端 | toggleterm.nvim |
 | tagbar | 代码大纲 | outline.nvim |
-| auto-pairs | 自动括号 | nvim-autopairs |
+| coc-pairs (CoC 扩展) | 自动括号 | nvim-autopairs |
 | copilot.vim | AI 补全 | copilot.lua |
 | vim-go | Go 支持 | go.nvim |
 
@@ -121,6 +120,11 @@ brew install vim node fzf ripgrep ctags
 | `<leader><CR>` | Normal | 清除搜索高亮 |
 | `<leader>q` | Normal | 切换 Quickfix 窗口 |
 | `<leader>o` | Normal | 关闭其他所有 buffer |
+| `<leader>ev` | Normal | 快速编辑 vimrc |
+| `<leader>sv` | Normal | 重载 vimrc |
+| `<leader>ec` | Normal | 编辑 `coc-settings.json` |
+| `<leader>ms` | Normal | 保存会话到 `~/.vim/session.vim` |
+| `<leader>mr` | Normal | 恢复会话 `~/.vim/session.vim` |
 | `<C-d>` | Insert | 插入当前日期 (YYYY-MM-DD) |
 | `<leader>` | Normal | 显示快捷键提示 (WhichKey) |
 
@@ -130,6 +134,10 @@ brew install vim node fzf ripgrep ctags
 |--------|------|------|
 | `gt` | Normal | 下一个 buffer |
 | `gT` | Normal | 上一个 buffer |
+| `[b` | Normal | 上一个 buffer |
+| `]b` | Normal | 下一个 buffer |
+| `[B` | Normal | 第一个 buffer |
+| `]B` | Normal | 最后一个 buffer |
 | `<A-1>` ~ `<A-9>` | Normal | 跳转到第 1-9 个 buffer |
 | `<leader>b` | Normal | 显示 buffer 列表 (FZF) |
 | `<leader>o` | Normal | 关闭其他 buffer |
@@ -283,21 +291,6 @@ brew install vim node fzf ripgrep ctags
 - `ysiw]` - 给单词加方括号: `hello` → `[hello]`
 - `yss)` - 整行加括号: `hello world` → `(hello world)`
 
-### 复制粘贴 (Yoink)
-
-| 快捷键 | 模式 | 功能 |
-|--------|------|------|
-| `p` | Normal | 粘贴 (增强) |
-| `P` | Normal | 粘贴到前面 (增强) |
-| `gp` | Normal | 粘贴并移动光标到末尾 |
-| `gP` | Normal | 粘贴到前面并移动光标 |
-| `<C-n>` | Normal | 粘贴后切换到上一个历史 |
-| `<C-m>` | Normal | 粘贴后切换到下一个历史 |
-
-使用方法:
-1. 正常粘贴 `p`
-2. 按 `<C-n>` 或 `<C-m>` 循环切换粘贴历史
-
 ### 替换操作 (Subversive)
 
 | 快捷键 | 模式 | 功能 |
@@ -369,8 +362,8 @@ brew install vim node fzf ripgrep ctags
 | `<C-p>` | 上一条历史命令 |
 | `<C-n>` | 下一条历史命令 |
 | `<C-d>` | 删除光标下的字符 |
-| `<C-k>` | 删除到行尾 |
-| `<C-u>` | 删除到行首 |
+| `<C-k>` | 删除到行尾 (kill-line) |
+| `<C-u>` | 删除到行首/清空命令行 (Vim 默认行为) |
 
 ### 其他快捷键
 
@@ -378,8 +371,10 @@ brew install vim node fzf ripgrep ctags
 
 | 快捷键 | 模式 | 功能 |
 |--------|------|------|
-| `<leader>n` | Normal | 跳转到下一个相同词 |
-| `<leader>N` | Normal | 跳转到上一个相同词 |
+| `<leader>n` | Normal | CoC 符号/引用导航（依赖 CoC 命令） |
+| `<leader>N` | Normal | CoC 符号/引用导航（依赖 CoC 命令） |
+
+vim-illuminate 在 Vim 中可用 `]r` / `[r` 跳转高亮引用。
 
 **Tagbar:**
 

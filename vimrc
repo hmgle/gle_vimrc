@@ -7,6 +7,12 @@ set nocompatible
 filetype plugin indent on
 syntax enable
 
+" PlantUML 文件类型检测（配合 vim-plug 的 { 'for': 'plantuml' } 懒加载）
+augroup PlantumlFiletypeDetect
+    autocmd!
+    autocmd BufNewFile,BufRead *.puml,*.plantuml,*.pu setfiletype plantuml
+augroup END
+
 " Leader 键
 let mapleader = ','
 let maplocalleader = ','
@@ -25,6 +31,15 @@ set nobackup
 set nowritebackup
 set noswapfile
 
+" 持久化撤销历史
+if has('persistent_undo')
+    set undofile
+    set undodir=~/.vim/undodir
+    if !isdirectory(&undodir)
+        call mkdir(&undodir, 'p', 0700)
+    endif
+endif
+
 " 搜索设置
 set ignorecase
 set smartcase
@@ -33,7 +48,6 @@ set incsearch
 
 " 界面设置
 set scrolloff=2
-set timeoutlen=500
 set ttimeoutlen=50
 set updatetime=300
 set signcolumn=yes
@@ -135,11 +149,11 @@ nnoremap gT :bp<CR>
 " 清除搜索高亮
 map <silent> <leader><cr> :noh<cr>
 
-" 窗口间移动
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+" 窗口间移动（仅 normal 模式，避免与插入模式补全冲突）
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-h> <C-W>h
+nnoremap <C-l> <C-W>l
 
 " Quickfix 切换
 nnoremap <silent><expr> <leader>q ":".(!empty(getqflist())? "cclose" : "botright copen")."<cr>"
@@ -150,7 +164,6 @@ inoremap <C-d> <C-R>=strftime("%Y-%m-%d")<CR>
 " 命令行快捷键（类似 Bash）
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
-cnoremap <C-K> <C-U>
 cnoremap <C-B> <Left>
 cnoremap <C-F> <right>
 cnoremap <C-P> <Up>
@@ -171,6 +184,21 @@ function! CloseBufsButCurr()
     endfor
 endfunction
 nnoremap <leader>o :call CloseBufsButCurr()<CR>
+
+" 快速编辑和重载配置文件
+nnoremap <leader>ev :edit $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>:echo "vimrc reloaded!"<CR>
+nnoremap <leader>ec :edit ~/.vim/coc-settings.json<CR>
+
+" Buffer 快速导航
+nnoremap [b :bprevious<CR>
+nnoremap ]b :bnext<CR>
+nnoremap [B :bfirst<CR>
+nnoremap ]B :blast<CR>
+
+" 会话管理
+nnoremap <leader>ms :mksession! ~/.vim/session.vim<CR>:echo "Session saved!"<CR>
+nnoremap <leader>mr :source ~/.vim/session.vim<CR>:echo "Session restored!"<CR>
 
 " ----------------------------- 插件管理 (vim-plug) ----------------------------
 " 自动安装 vim-plug
@@ -208,19 +236,19 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
-Plug 'jiangmiao/auto-pairs'
+" 注：使用 coc-pairs 代替 auto-pairs（避免冲突）
 
 " 快速移动
 Plug 'easymotion/vim-easymotion'
 
 " 对齐
-Plug 'godlygeek/tabular'
+Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
 
 " 缩进检测
 Plug 'tpope/vim-sleuth'
 
 " 标签栏
-Plug 'preservim/tagbar'
+Plug 'preservim/tagbar', { 'on': 'TagbarToggle' }
 
 " 代码补全和 LSP (coc.nvim)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -259,8 +287,8 @@ Plug 'voldikss/vim-floaterm'
 Plug 'AndrewRadev/switch.vim'
 
 " PlantUML
-Plug 'aklt/plantuml-syntax'
-Plug 'scrooloose/vim-slumlord'
+Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
+Plug 'scrooloose/vim-slumlord', { 'for': 'plantuml' }
 
 " Go 支持
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': ['go', 'gomod'] }
@@ -276,7 +304,17 @@ let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_show_eob = 0
 let g:gruvbox_material_dim_inactive_windows = 1
 let g:gruvbox_material_ui_contrast = 'high'
-colorscheme gruvbox-material
+
+" 加载主题（带错误处理）
+try
+    colorscheme gruvbox-material
+catch /^Vim\%((\a\+)\)\=:E185/
+    " 主题未安装时使用默认配色
+    colorscheme default
+    echohl WarningMsg
+    echo "gruvbox-material not found, using default colorscheme. Run :PlugInstall to install."
+    echohl None
+endtry
 
 " ----------------------------- Airline 配置 ----------------------------------
 let g:airline#extensions#tabline#enabled = 1
@@ -303,8 +341,11 @@ let g:NERDTreeIgnore = ['^\.git$', '^node_modules$']
 nnoremap <leader>tt :NERDTreeToggle<CR>
 nnoremap <leader>tf :NERDTreeFind<CR>
 
-" 自动关闭
-autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" 自动关闭（最后一个窗口时）
+augroup NERDTreeConfig
+    autocmd!
+    autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+augroup END
 
 " ----------------------------- FZF 配置 --------------------------------------
 let g:fzf_layout = { 'down': '~40%' }
@@ -413,12 +454,12 @@ nnoremap <leader>ss :<C-u>CocList outline<CR>
 nnoremap <leader>sS :<C-u>CocList -I symbols<CR>
 
 " ----------------------------- EasyMotion 配置 -------------------------------
-" 类似 flash.nvim 的快速跳转
+" 类似 flash.nvim 的快速跳转（双字符跳转）
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_do_mapping = 0
-nmap s <Plug>(easymotion-overwin-f)
-xmap s <Plug>(easymotion-overwin-f)
-omap s <Plug>(easymotion-overwin-f)
+nmap s <Plug>(easymotion-overwin-f2)
+xmap s <Plug>(easymotion-overwin-f2)
+omap s <Plug>(easymotion-overwin-f2)
 
 " ----------------------------- Tagbar 配置 -----------------------------------
 let g:tagbar_silent = 1
@@ -447,13 +488,22 @@ let g:rainbow_conf = {
 \   }
 \}
 
+" ----------------------------- CoC Document Highlight 配置 --------------------
+" 启用光标停留时自动高亮引用
+augroup CocDocumentHighlight
+    autocmd!
+    if exists('*CocActionAsync')
+        autocmd CursorHold * silent call CocActionAsync('highlight')
+    endif
+augroup END
+
+" 使用 CoC 的 LSP 引用导航（匹配 Neovim illuminate 和 vim-lsp 行为）
+nmap <silent> <leader>n :CocCommand document.jumpToNextSymbol<CR>
+nmap <silent> <leader>N :CocCommand document.jumpToPrevSymbol<CR>
+
 " ----------------------------- vim-illuminate 配置 ---------------------------
 let g:Illuminate_delay = 200
-nnoremap <leader>n :lua vim.lsp.buf.goto_next_reference()<CR>
-nnoremap <leader>N :lua vim.lsp.buf.goto_prev_reference()<CR>
-" 注意：vim-illuminate 在 vim 中功能受限，使用 ]r [r 跳转
-nmap <leader>n <Plug>(Illuminate_next_reference)
-nmap <leader>N <Plug>(Illuminate_prev_reference)
+" 注意：vim-illuminate 提供额外的单词高亮，CoC 提供基于 LSP 的符号高亮
 
 " ----------------------------- vim-subversive 配置 ---------------------------
 " 类似 substitute.nvim
@@ -517,28 +567,61 @@ let g:go_gopls_enabled = 0
 
 " ----------------------------- 输入法切换 ------------------------------------
 " 离开插入模式时切换到英文输入法
-if executable('fcitx5-remote')
-    autocmd InsertLeave * silent! call system('fcitx5-remote -c')
-elseif executable('fcitx-remote')
-    autocmd InsertLeave * silent! call system('fcitx-remote -c')
-endif
+augroup InputMethodSwitch
+    autocmd!
+    if executable('fcitx5-remote')
+        autocmd InsertLeave * silent! call system('fcitx5-remote -c')
+    elseif executable('fcitx-remote')
+        autocmd InsertLeave * silent! call system('fcitx-remote -c')
+    endif
+augroup END
 
 " ----------------------------- 其他设置 --------------------------------------
-" 自动保存视图
+" 自动保存视图（仅对普通文件，排除特殊缓冲区）
 augroup remember_folds
     autocmd!
-    autocmd BufWinLeave *.* mkview
-    autocmd BufWinEnter *.* silent! loadview
+    autocmd BufWinLeave ?*
+        \ if &buftype == '' && &filetype != '' && expand('%') !~ '\[.*\]' |
+        \   silent! mkview |
+        \ endif
+    autocmd BufWinEnter ?*
+        \ if &buftype == '' && &filetype != '' && expand('%') !~ '\[.*\]' |
+        \   silent! loadview |
+        \ endif
 augroup END
 
 " 大文件优化
+function! s:HandleLargeFile(file)
+    if getfsize(a:file) > 2097152  " 2MB
+        setlocal noswapfile
+        setlocal bufhidden=unload
+        setlocal undolevels=-1
+        setlocal foldmethod=manual
+        setlocal nofoldenable
+        " 禁用语法高亮以提升性能（避免全局关闭 syntax）
+        silent! syntax clear
+        unlet! b:current_syntax
+    endif
+endfunction
+
 augroup LargeFile
     autocmd!
-    autocmd BufReadPre * if getfsize(expand("<afile>")) > 2097152 |
-        \ setlocal noswapfile |
-        \ setlocal bufhidden=unload |
-        \ setlocal undolevels=-1 |
-        \ setlocal foldmethod=manual |
-        \ setlocal nofoldenable |
-        \ endif
+    autocmd BufReadPre * call s:HandleLargeFile(expand("<afile>"))
 augroup END
+
+" ----------------------------- 插件性能优化 -----------------------------------
+" vim-gitgutter 性能优化
+let g:gitgutter_max_signs = 500
+let g:gitgutter_map_keys = 0
+let g:gitgutter_sign_priority = 10
+
+" NERDTree 优化
+let g:NERDTreeMinimalMenu = 1
+
+" Copilot 优化（避免与 Tab 补全冲突）
+let g:copilot_no_tab_map = v:true
+let g:copilot_assume_mapped = v:true
+" 使用 Alt+Enter 接受建议
+if exists('*copilot#Accept')
+    imap <silent><script><expr> <M-CR> copilot#Accept("\<CR>")
+endif

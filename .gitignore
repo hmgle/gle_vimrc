@@ -1,0 +1,10 @@
+# vim-plug plugins
+/plugged/
+
+# vim view/undo/session artifacts
+/view/
+/undodir/
+/session.vim
+
+# vim-plug bootstrap (auto-downloaded by vimrc)
+/autoload/plug.vim
