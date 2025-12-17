@@ -302,7 +302,7 @@ let g:gruvbox_material_current_word = 'bold'
 let g:gruvbox_material_foreground = 'original'
 let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_show_eob = 0
-let g:gruvbox_material_dim_inactive_windows = 1
+let g:gruvbox_material_dim_inactive_windows = 0
 let g:gruvbox_material_ui_contrast = 'high'
 
 " 加载主题（带错误处理）
@@ -315,6 +315,51 @@ catch /^Vim\%((\a\+)\)\=:E185/
     echo "gruvbox-material not found, using default colorscheme. Run :PlugInstall to install."
     echohl None
 endtry
+
+" ----------------------------- 统一背景色设置 --------------------------------
+" 覆盖主题的高亮设置，保持背景色一致
+" 使用下划线、粗体、前景色变化代替背景色变化
+function! s:UnifyBackground() abort
+    " 醒目的前景色（gruvbox 红/橙色系）
+    let l:fg_search = '#c14a4a'      " 红色 - 搜索高亮
+    let l:fg_ref = '#6c782e'         " 绿色 - 引用高亮
+    let l:fg_match = '#b47109'       " 橙色 - 括号匹配
+
+    " 搜索高亮：红色前景 + 下划线 + 粗体
+    execute 'highlight Search ctermbg=NONE guibg=NONE ctermfg=red guifg=' . l:fg_search . ' cterm=underline,bold gui=underline,bold'
+    execute 'highlight IncSearch ctermbg=NONE guibg=NONE ctermfg=red guifg=' . l:fg_search . ' cterm=reverse,underline,bold gui=reverse,underline,bold'
+    execute 'highlight CurSearch ctermbg=NONE guibg=NONE ctermfg=red guifg=' . l:fg_search . ' cterm=underline,bold gui=underline,bold'
+
+    " 视觉选择：使用反色
+    highlight Visual ctermbg=NONE guibg=NONE cterm=reverse gui=reverse
+
+    " 当前词高亮 (vim-illuminate)：绿色前景 + 下划线
+    execute 'highlight IlluminatedWordText ctermbg=NONE guibg=NONE ctermfg=green guifg=' . l:fg_ref . ' cterm=underline gui=underline'
+    execute 'highlight IlluminatedWordRead ctermbg=NONE guibg=NONE ctermfg=green guifg=' . l:fg_ref . ' cterm=underline gui=underline'
+    execute 'highlight IlluminatedWordWrite ctermbg=NONE guibg=NONE ctermfg=green guifg=' . l:fg_ref . ' cterm=underline gui=underline'
+
+    " CoC 高亮：绿色前景 + 下划线
+    execute 'highlight CocHighlightText ctermbg=NONE guibg=NONE ctermfg=green guifg=' . l:fg_ref . ' cterm=underline gui=underline'
+    execute 'highlight CocHighlightRead ctermbg=NONE guibg=NONE ctermfg=green guifg=' . l:fg_ref . ' cterm=underline gui=underline'
+    execute 'highlight CocHighlightWrite ctermbg=NONE guibg=NONE ctermfg=green guifg=' . l:fg_ref . ' cterm=underline gui=underline'
+
+    " 匹配括号：橙色前景 + 下划线 + 粗体
+    execute 'highlight MatchParen ctermbg=NONE guibg=NONE ctermfg=yellow guifg=' . l:fg_match . ' cterm=bold,underline gui=bold,underline'
+
+    " QuickFix 当前行
+    highlight QuickFixLine ctermbg=NONE guibg=NONE cterm=bold gui=bold
+
+    " 注意：Cursor（光标字符位置）保持主题默认，不覆盖
+endfunction
+
+" 主题加载后应用统一背景
+augroup UnifyBackgroundGroup
+    autocmd!
+    autocmd ColorScheme * call s:UnifyBackground()
+augroup END
+
+" 立即应用（首次加载）
+call s:UnifyBackground()
 
 " ----------------------------- Airline 配置 ----------------------------------
 let g:airline#extensions#tabline#enabled = 1
@@ -549,7 +594,8 @@ let g:switch_custom_definitions =
 
 " ----------------------------- vim-matchup 配置 ------------------------------
 let g:matchup_matchparen_offscreen = {'method': 'popup'}
-highlight OffscreenPopup guibg=#FF0000 guifg=blue
+" 使用下划线代替背景色变化
+highlight OffscreenPopup gui=underline,bold
 
 " ----------------------------- vim-go 配置 -----------------------------------
 let g:go_fmt_autosave = 1
