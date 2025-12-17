@@ -194,14 +194,13 @@ brew install vim node fzf ripgrep ctags
 | 快捷键 | 模式 | 功能 |
 |--------|------|------|
 | `<C-p>` | Normal | **智能文件搜索** (最近文件优先，frecency 排序) |
-| `<leader>ff` | Normal | 普通文件搜索 |
-| `<leader>fz` | Normal | MRU 文件搜索 |
-| `<leader>fg` | Normal | 全局内容搜索 (ripgrep) |
-| `<leader>fl` | Normal | 所有 buffer 行搜索 |
-| `<leader>fb` | Normal | 当前 buffer 行搜索 |
+| `<leader>ff` | Normal | 文件搜索 |
+| `<leader>fl` | Normal | 全局内容搜索 (Live grep, ripgrep) |
+| `<leader>fb` | Normal | 当前 buffer 模糊搜索 |
+| `<leader>fz` | Normal | MRU/Frecency 文件搜索 |
+| `<leader>fr` | Normal | 最近文件历史 |
 | `<leader>b` | Normal | Buffer 列表 |
 | `<leader>fh` | Normal | 帮助文档搜索 |
-| `<leader>fr` | Normal | 最近文件历史 (vim 原生) |
 | `<leader>*` | Normal | 搜索光标下的单词 |
 
 **FZF 窗口内快捷键:**

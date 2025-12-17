@@ -401,10 +401,9 @@ let g:fzf_filemru_bufwrite = 1        " 保存文件时更新 MRU
 let g:fzf_filemru_git_ls = 1          " 使用 git ls-files (更快)
 let g:fzf_filemru_ignore_submodule = 1
 
-" 快捷键映射 (与 Neovim telescope 类似)
+" 快捷键映射 (与 Neovim telescope 一致)
 nnoremap <leader>ff :Files<CR>
-nnoremap <leader>fg :Rg<CR>
-nnoremap <leader>fl :Lines<CR>
+nnoremap <leader>fl :Rg<CR>
 nnoremap <leader>fb :BLines<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>fh :Helptags<CR>
