@@ -621,7 +621,5 @@ let g:NERDTreeMinimalMenu = 1
 " Copilot 优化（避免与 Tab 补全冲突）
 let g:copilot_no_tab_map = v:true
 let g:copilot_assume_mapped = v:true
-" 使用 Alt+Enter 接受建议
-if exists('*copilot#Accept')
-    imap <silent><script><expr> <M-CR> copilot#Accept("\<CR>")
-endif
+" 使用 Ctrl+Y 接受建议
+imap <silent><script><expr> <C-y> copilot#Accept("\<CR>")

@@ -21,6 +21,7 @@
   - [Git 操作](#git-操作)
   - [终端 (Floaterm)](#终端-floaterm)
   - [翻译](#翻译)
+  - [AI 补全 (Copilot)](#ai-补全-copilot)
   - [命令行快捷键](#命令行快捷键)
 - [插件命令](#插件命令)
 
@@ -348,6 +349,12 @@ brew install vim node fzf ripgrep ctags
 | `<leader>ee` | Normal | 翻译光标下的单词 |
 | `<leader>ee` | Visual | 翻译选中的文本 |
 | `<leader>yd` | Normal | 输入要翻译的内容 |
+
+### AI 补全 (Copilot)
+
+| 快捷键 | 模式 | 功能 |
+|--------|------|------|
+| `<C-y>` | Insert | 接受 Copilot 建议 |
 
 ### 命令行快捷键
 
