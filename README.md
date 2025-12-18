@@ -257,11 +257,11 @@ brew install vim node fzf ripgrep ctags
 
 | 快捷键 | 模式 | 功能 |
 |--------|------|------|
-| `s{char}{char}` | Normal/Visual/Operator | 双字符跳转 |
+| `s{char}` | Normal/Visual/Operator | 单字符跳转 |
 
 使用方法:
 1. 按 `s`
-2. 输入两个字符
+2. 输入一个字符
 3. 按显示的标签字母跳转
 
 ### 代码注释 (Commentary)
