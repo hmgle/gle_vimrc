@@ -501,9 +501,11 @@ nnoremap <leader>sS :<C-u>CocList -I symbols<CR>
 " 类似 flash.nvim 的快速跳转（单字符跳转）
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_do_mapping = 0
-nmap s <Plug>(easymotion-overwin-f)
-xmap s <Plug>(easymotion-overwin-f)
-omap s <Plug>(easymotion-overwin-f)
+nmap s <Plug>(easymotion-s)
+xmap s <Plug>(easymotion-s)
+omap s <Plug>(easymotion-s)
+map f <Plug>(easymotion-fl)
+map F <Plug>(easymotion-Fl)
 
 " ----------------------------- Tagbar 配置 -----------------------------------
 let g:tagbar_silent = 1
