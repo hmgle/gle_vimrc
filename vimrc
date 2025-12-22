@@ -396,6 +396,11 @@ augroup END
 let g:fzf_layout = { 'down': '~40%' }
 let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 
+" 默认只显示 git 跟踪的文件（类似 snacks.picker.smart）
+" --cached: 已跟踪文件  --others --exclude-standard: 未跟踪但不被忽略的新文件
+let $FZF_DEFAULT_COMMAND = 'git ls-files --cached --others --exclude-standard 2>/dev/null || find . -type f'
+" 如果只要严格的 git 跟踪文件，使用: git ls-files 2>/dev/null || find . -type f
+
 " fzf-filemru 配置 (frecency 排序)
 let g:fzf_filemru_bufwrite = 1        " 保存文件时更新 MRU
 let g:fzf_filemru_git_ls = 1          " 使用 git ls-files (更快)
