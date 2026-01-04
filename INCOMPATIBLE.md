@@ -202,8 +202,10 @@
 | Neovim 快捷键 | Vim 快捷键 | 功能 |
 |--------------|-----------|------|
 | `<leader>ff` | `<leader>ff` | 文件搜索 |
-| `<leader>fg` | `<leader>fg` | 实时 grep |
+| `<leader>fl` | `<leader>fl` | Live grep (全局内容搜索) |
 | `<leader>fb` | `<leader>fb` | Buffer 内搜索 |
+| `<leader>fz` | `<leader>fz` | Frecency/MRU 文件搜索 |
+| `<leader>fr` | `<leader>fr` | 最近文件历史 |
 | `<leader>b` | `<leader>b` | Buffer 列表 |
 | `<leader>fh` | `<leader>fh` | 帮助标签 |
 | `<leader>*` | `<leader>*` | 搜索光标词 |
@@ -270,7 +272,7 @@
 | 文件树 | `<leader>tt` | `<leader>tt` | 相同 |
 | 定位文件 | `<leader>tf` | `<leader>tf` | 相同 |
 | 文件搜索 | `<leader>ff` | `<leader>ff` | 相同 |
-| 实时 grep | `<leader>fg` | `<leader>fg` | 相同 |
+| 实时 grep | `<leader>fl` | `<leader>fl` | 相同 |
 | Buffer 列表 | `<leader>b` | `<leader>b` | 相同 |
 | 快速跳转 | `s` | `s` | 相同 (easymotion) |
 | Treesitter 跳转 | `S` | - | 不可用 |

@@ -302,7 +302,7 @@ let g:gruvbox_material_current_word = 'bold'
 let g:gruvbox_material_foreground = 'original'
 let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_show_eob = 0
-let g:gruvbox_material_dim_inactive_windows = 1
+let g:gruvbox_material_dim_inactive_windows = 0
 let g:gruvbox_material_ui_contrast = 'high'
 
 " 加载主题（带错误处理）
@@ -315,6 +315,51 @@ catch /^Vim\%((\a\+)\)\=:E185/
     echo "gruvbox-material not found, using default colorscheme. Run :PlugInstall to install."
     echohl None
 endtry
+
+" ----------------------------- 统一背景色设置 --------------------------------
+" 覆盖主题的高亮设置，保持背景色一致
+" 使用下划线、粗体、前景色变化代替背景色变化
+function! s:UnifyBackground() abort
+    " 醒目的前景色（gruvbox 红/橙色系）
+    let l:fg_search = '#c14a4a'      " 红色 - 搜索高亮
+    let l:fg_ref = '#6c782e'         " 绿色 - 引用高亮
+    let l:fg_match = '#b47109'       " 橙色 - 括号匹配
+
+    " 搜索高亮：红色前景 + 下划线 + 粗体
+    execute 'highlight Search ctermbg=NONE guibg=NONE ctermfg=red guifg=' . l:fg_search . ' cterm=underline,bold gui=underline,bold'
+    execute 'highlight IncSearch ctermbg=NONE guibg=NONE ctermfg=red guifg=' . l:fg_search . ' cterm=reverse,underline,bold gui=reverse,underline,bold'
+    execute 'highlight CurSearch ctermbg=NONE guibg=NONE ctermfg=red guifg=' . l:fg_search . ' cterm=underline,bold gui=underline,bold'
+
+    " 视觉选择：使用反色
+    highlight Visual ctermbg=NONE guibg=NONE cterm=reverse gui=reverse
+
+    " 当前词高亮 (vim-illuminate)：绿色前景 + 下划线
+    execute 'highlight IlluminatedWordText ctermbg=NONE guibg=NONE ctermfg=green guifg=' . l:fg_ref . ' cterm=underline gui=underline'
+    execute 'highlight IlluminatedWordRead ctermbg=NONE guibg=NONE ctermfg=green guifg=' . l:fg_ref . ' cterm=underline gui=underline'
+    execute 'highlight IlluminatedWordWrite ctermbg=NONE guibg=NONE ctermfg=green guifg=' . l:fg_ref . ' cterm=underline gui=underline'
+
+    " CoC 高亮：绿色前景 + 下划线
+    execute 'highlight CocHighlightText ctermbg=NONE guibg=NONE ctermfg=green guifg=' . l:fg_ref . ' cterm=underline gui=underline'
+    execute 'highlight CocHighlightRead ctermbg=NONE guibg=NONE ctermfg=green guifg=' . l:fg_ref . ' cterm=underline gui=underline'
+    execute 'highlight CocHighlightWrite ctermbg=NONE guibg=NONE ctermfg=green guifg=' . l:fg_ref . ' cterm=underline gui=underline'
+
+    " 匹配括号：橙色前景 + 下划线 + 粗体
+    execute 'highlight MatchParen ctermbg=NONE guibg=NONE ctermfg=yellow guifg=' . l:fg_match . ' cterm=bold,underline gui=bold,underline'
+
+    " QuickFix 当前行
+    highlight QuickFixLine ctermbg=NONE guibg=NONE cterm=bold gui=bold
+
+    " 注意：Cursor（光标字符位置）保持主题默认，不覆盖
+endfunction
+
+" 主题加载后应用统一背景
+augroup UnifyBackgroundGroup
+    autocmd!
+    autocmd ColorScheme * call s:UnifyBackground()
+augroup END
+
+" 立即应用（首次加载）
+call s:UnifyBackground()
 
 " ----------------------------- Airline 配置 ----------------------------------
 let g:airline#extensions#tabline#enabled = 1
@@ -351,15 +396,19 @@ augroup END
 let g:fzf_layout = { 'down': '~40%' }
 let g:fzf_preview_window = ['right:50%', 'ctrl-/']
 
+" 默认只显示 git 跟踪的文件（类似 snacks.picker.smart）
+" --cached: 已跟踪文件  --others --exclude-standard: 未跟踪但不被忽略的新文件
+let $FZF_DEFAULT_COMMAND = 'git ls-files --cached --others --exclude-standard 2>/dev/null || find . -type f'
+" 如果只要严格的 git 跟踪文件，使用: git ls-files 2>/dev/null || find . -type f
+
 " fzf-filemru 配置 (frecency 排序)
 let g:fzf_filemru_bufwrite = 1        " 保存文件时更新 MRU
 let g:fzf_filemru_git_ls = 1          " 使用 git ls-files (更快)
 let g:fzf_filemru_ignore_submodule = 1
 
-" 快捷键映射 (与 Neovim telescope 类似)
+" 快捷键映射 (与 Neovim telescope 一致)
 nnoremap <leader>ff :Files<CR>
-nnoremap <leader>fg :Rg<CR>
-nnoremap <leader>fl :Lines<CR>
+nnoremap <leader>fl :Rg<CR>
 nnoremap <leader>fb :BLines<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>fh :Helptags<CR>
@@ -454,12 +503,14 @@ nnoremap <leader>ss :<C-u>CocList outline<CR>
 nnoremap <leader>sS :<C-u>CocList -I symbols<CR>
 
 " ----------------------------- EasyMotion 配置 -------------------------------
-" 类似 flash.nvim 的快速跳转（双字符跳转）
+" 类似 flash.nvim 的快速跳转（单字符跳转）
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_do_mapping = 0
-nmap s <Plug>(easymotion-overwin-f2)
-xmap s <Plug>(easymotion-overwin-f2)
-omap s <Plug>(easymotion-overwin-f2)
+nmap s <Plug>(easymotion-s)
+xmap s <Plug>(easymotion-s)
+omap s <Plug>(easymotion-s)
+map f <Plug>(easymotion-fl)
+map F <Plug>(easymotion-Fl)
 
 " ----------------------------- Tagbar 配置 -----------------------------------
 let g:tagbar_silent = 1
@@ -549,7 +600,8 @@ let g:switch_custom_definitions =
 
 " ----------------------------- vim-matchup 配置 ------------------------------
 let g:matchup_matchparen_offscreen = {'method': 'popup'}
-highlight OffscreenPopup guibg=#FF0000 guifg=blue
+" 使用下划线代替背景色变化
+highlight OffscreenPopup gui=underline,bold
 
 " ----------------------------- vim-go 配置 -----------------------------------
 let g:go_fmt_autosave = 1
@@ -621,7 +673,5 @@ let g:NERDTreeMinimalMenu = 1
 " Copilot 优化（避免与 Tab 补全冲突）
 let g:copilot_no_tab_map = v:true
 let g:copilot_assume_mapped = v:true
-" 使用 Alt+Enter 接受建议
-if exists('*copilot#Accept')
-    imap <silent><script><expr> <M-CR> copilot#Accept("\<CR>")
-endif
+" 使用 Ctrl+Y 接受建议
+imap <silent><script><expr> <C-y> copilot#Accept("\<CR>")

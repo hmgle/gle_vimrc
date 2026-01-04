@@ -21,6 +21,7 @@
   - [Git 操作](#git-操作)
   - [终端 (Floaterm)](#终端-floaterm)
   - [翻译](#翻译)
+  - [AI 补全 (Copilot)](#ai-补全-copilot)
   - [命令行快捷键](#命令行快捷键)
 - [插件命令](#插件命令)
 
@@ -193,14 +194,13 @@ brew install vim node fzf ripgrep ctags
 | 快捷键 | 模式 | 功能 |
 |--------|------|------|
 | `<C-p>` | Normal | **智能文件搜索** (最近文件优先，frecency 排序) |
-| `<leader>ff` | Normal | 普通文件搜索 |
-| `<leader>fz` | Normal | MRU 文件搜索 |
-| `<leader>fg` | Normal | 全局内容搜索 (ripgrep) |
-| `<leader>fl` | Normal | 所有 buffer 行搜索 |
-| `<leader>fb` | Normal | 当前 buffer 行搜索 |
+| `<leader>ff` | Normal | 文件搜索 |
+| `<leader>fl` | Normal | 全局内容搜索 (Live grep, ripgrep) |
+| `<leader>fb` | Normal | 当前 buffer 模糊搜索 |
+| `<leader>fz` | Normal | MRU/Frecency 文件搜索 |
+| `<leader>fr` | Normal | 最近文件历史 |
 | `<leader>b` | Normal | Buffer 列表 |
 | `<leader>fh` | Normal | 帮助文档搜索 |
-| `<leader>fr` | Normal | 最近文件历史 (vim 原生) |
 | `<leader>*` | Normal | 搜索光标下的单词 |
 
 **FZF 窗口内快捷键:**
@@ -257,11 +257,11 @@ brew install vim node fzf ripgrep ctags
 
 | 快捷键 | 模式 | 功能 |
 |--------|------|------|
-| `s{char}{char}` | Normal/Visual/Operator | 双字符跳转 |
+| `s{char}` | Normal/Visual/Operator | 单字符跳转 |
 
 使用方法:
 1. 按 `s`
-2. 输入两个字符
+2. 输入一个字符
 3. 按显示的标签字母跳转
 
 ### 代码注释 (Commentary)
@@ -348,6 +348,12 @@ brew install vim node fzf ripgrep ctags
 | `<leader>ee` | Normal | 翻译光标下的单词 |
 | `<leader>ee` | Visual | 翻译选中的文本 |
 | `<leader>yd` | Normal | 输入要翻译的内容 |
+
+### AI 补全 (Copilot)
+
+| 快捷键 | 模式 | 功能 |
+|--------|------|------|
+| `<C-y>` | Insert | 接受 Copilot 建议 |
 
 ### 命令行快捷键
 
